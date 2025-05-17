@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Riesgo de Diabetes Tipo 2</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Estilos para el panel de inicio */
+        .start-panel h2 {
+            color: var(--bs-primary);
+            /* Usar el color primario de Bootstrap */
+            margin-bottom: 1rem;
+        }
+
+        .start-panel .btn-primary {
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 0.3rem;
+        }
+
+        .question-panel {
+            display: none;
+        }
+
+        .question-panel.active {
+            display: block;
+        }
+
+        .survey-option label {
+            display: block;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+            padding: 0.75rem;
+        }
+
+        .survey-option input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        .quiz-nav {
+            margin-top: 1rem;
+        }
+
+        .progress-message {
+            color: red;
+            font-size: 0.9rem;
+        }
+
+        .result-panel .my-result {
+            display: none;
+        }
+
+        .result-panel .my-result.active {
+            display: block;
+        }
+
+        .calculator-element label,
+        .calculator-element input {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-wrap {
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="quiz-wrapper">
+            <!-- <div id="question-1" class="question-panel start-panel bg-light p-4 rounded shadow active">
+                <h2>Test de Riesgo de Diabetes Tipo 2</h2>
+                <p>La prueba tarda un par de minutos en completarse. Es una forma rápida, fácil y confidencial de
+                    conocer su riesgo de desarrollar diabetes tipo 2.</p>
+                <div class="quiz-nav">
+                    <button class="btn btn-primary next">Comenzar</button>
+                </div>
+                <p class="mt-3">La prueba se encuentra también disponible en los idiomas siguientes:</p>
+            </div> -->
+
+            <div id="question-1" class="question-panel start-panel bg-light p-4 rounded shadow active">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h2>¿Conoces tu riesgo de Diabetes Tipo 2?</h2>
+                        <p class="lead">Una prueba rápida, fácil y confidencial para evaluar tu riesgo en solo unos
+                            minutos.</p>
+                        <div class="quiz-nav mt-3">
+                            <button class="btn btn-primary btn-lg next">¡Comenzar ahora!</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-center align-items-center">
+                        <img src="./assets/img/logo_unillanos.png" alt="Logo Universidad" height="80" class="mr-3">
+                        <img src="./assets/img/logo_hospital.png" alt="Logo Clínica" height="80">
+                    </div>
+                </div>
+            </div>
+
+            <div id="question-2" class="question-panel one bg-light p-4 rounded shadow">
+
+                <h3><span class="number">1.</span> Edad</h3>
+                <ul id="option-group-2" class="option-group list-unstyled">
+                    <li class="progress-message">Por favor seleccione una respuesta</li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="age" value="Under 45 years" data-score="0">
+                            Menos de 45 años
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="age" value="45-54 years" data-score="2">
+                            45-54 años
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="age" value="55-64 years" data-score="3">
+                            55-64 años
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="age" value="Over 64 years" data-score="4">
+                            Más de 64 años
+                        </label>
+                    </li>
+                </ul>
+                <div class="quiz-nav mt-3">
+                    <button class="btn btn-secondary prev">Anterior</button>
+                    <span class="ml-2 mr-2">Pregunta 1 de 8</span>
+                    <button class="btn btn-primary next" disabled>Siguiente</button>
+                </div>
+            </div>
+
+            <div id="question-3" class="question-panel two bg-light p-4 rounded shadow">
+                <h3><span class="number">2.</span> Índice de masa corporal</h3>
+                <h4>Calculadora índice de masa corporal</h4>
+                <div class="calculator-element">
+                    <label for="height">Mi altura es (cm)</label>
+                    <input type="number" class="form-control calc-field" id="height" name="height" autocomplete="off"
+                        min="1" max="500">
+                    <label for="weight">Mi peso es (kg)</label>
+                    <input type="number" class="form-control calc-field" id="weight" name="weight" autocomplete="off"
+                        min="1" max="1000">
+                    <div class="result-wrap">
+                        IMC: <span class="bmi-result"></span>
+                        <p class="mt-2"><small>Seleccione la opción correspondiente a su IMC:</small></p>
+                    </div>
+                </div>
+                <ul id="option-group-3" class="option-group list-unstyled">
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="bmi" value="Lower than 25 kg/m2" data-score="0">
+                            Menor de 25 kg/m²
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="bmi" value="25–30 kg/m2" data-score="1">
+                            Entre 25-30 kg/m²
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="bmi" value="Higher than 30 kg/m2" data-score="3">
+                            Mayor de 30 kg/m²
+                        </label>
+                    </li>
+                </ul>
+                <div class="quiz-nav mt-3">
+                    <button class="btn btn-secondary prev">Anterior</button>
+                    <span class="ml-2 mr-2">Pregunta 2 de 8</span>
+                    <button class="btn btn-primary next" disabled>Siguiente</button>
+                </div>
+            </div>
+
+            <!-- <div id="question-4" class="question-panel three bg-light p-4 rounded shadow">
+                <h3><span class="number">3</span> Perímetro de cintura <br><small>(medido por debajo las costillas,
+                        normalmente a nivel del ombligo)</small></h3>
+                <ul id="option-group-4" class="option-group list-unstyled">
+                    <li>
+                        <h4>Hombres</h4>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist_men" value="Less than 94 cm" data-score="0">
+                            Menos de 94 cm
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist_men" value="94-102 cm" data-score="3">
+                            Entre 94-102 cm
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist_men" value="More than 102 cm" data-score="4">
+                            Más de 102 cm
+                        </label>
+                    </li>
+                    <li class="mt-3">
+                        <h4>Mujeres</h4>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist_women" value="Less than 80 cm" data-score="0">
+                            Menos de 80 cm
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist_women" value="80-88 cm" data-score="3">
+                            Entre 80-88 cm
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist_women" value="More than 88 cm" data-score="4">
+                            Más de 88 cm
+                        </label>
+                    </li>
+                </ul>
+                <div class="quiz-nav mt-3">
+                    <button class="btn btn-secondary prev">Anterior</button>
+                    <span class="ml-2 mr-2">Pregunta 3 de 8</span>
+                    <button class="btn btn-primary next" disabled>Siguiente</button>
+                </div>
+            </div> -->
+
+            <div id="question-4" class="question-panel three bg-light p-4 rounded shadow">
+                <h3><span class="number">3.</span> Perímetro de cintura <br><small>(medido por debajo las costillas,
+                        normalmente a nivel del ombligo)</small></h3>
+                <ul id="option-group-4" class="option-group list-unstyled">
+                    <li>
+                        <h4>Hombres</h4>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist" value="Less than 94 cm (Men)" data-score-men="0">
+                            Menos de 94 cm
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist" value="94-102 cm (Men)" data-score-men="3">
+                            Entre 94-102 cm
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist" value="More than 102 cm (Men)" data-score-men="4">
+                            Más de 102 cm
+                        </label>
+                    </li>
+                    <li class="mt-3">
+                        <h4>Mujeres</h4>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist" value="Less than 80 cm (Women)" data-score-women="0">
+                            Menos de 80 cm
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist" value="80-88 cm (Women)" data-score-women="3">
+                            Entre 80-88 cm
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="waist" value="More than 88 cm (Women)" data-score-women="4">
+                            Más de 88 cm
+                        </label>
+                    </li>
+                </ul>
+                <div class="quiz-nav mt-3">
+                    <button class="btn btn-secondary prev">Anterior</button>
+                    <span class="ml-2 mr-2">Pregunta 3 de 8</span>
+                    <button class="btn btn-primary next" disabled>Siguiente</button>
+                </div>
+            </div>
+
+            <div id="question-5" class="question-panel four bg-light p-4 rounded shadow">
+                <h3><span class="number">4.</span> ¿Realiza habitualmente al menos 30 minutos de actividad física, en el
+                    trabajo y/o en el tiempo libre?</h3>
+                <ul id="option-group-5" class="option-group list-unstyled">
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="activity" value="Yes" data-score="0">
+                            Sí
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="activity" value="No" data-score="2">
+                            No
+                        </label>
+                    </li>
+                </ul>
+                <div class="quiz-nav mt-3">
+                    <button class="btn btn-secondary prev">Anterior</button>
+                    <span class="ml-2 mr-2">Pregunta 4 de 8</span>
+                    <button class="btn btn-primary next" disabled>Siguiente</button>
+                </div>
+            </div>
+
+            <div id="question-6" class="question-panel five bg-light p-4 rounded shadow">
+                <h3><span class="number">5.</span> ¿Con qué frecuencia come verduras o fruta?</h3>
+                <ul id="option-group-6" class="option-group list-unstyled">
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="diet" value="Every day" data-score="0">
+                            Cada día
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="diet" value="Not every day" data-score="1">
+                            No cada día
+                        </label>
+                    </li>
+                </ul>
+                <div class="quiz-nav mt-3">
+                    <button class="btn btn-secondary prev">Anterior</button>
+                    <span class="ml-2 mr-2">Pregunta 5 de 8</span>
+                    <button class="btn btn-primary next" disabled>Siguiente</button>
+                </div>
+            </div>
+
+            <div id="question-7" class="question-panel six bg-light p-4 rounded shadow">
+                <h3><span class="number">6.</span> ¿Toma medicación para la presión regularmente?</h3>
+                <ul id="option-group-7" class="option-group list-unstyled">
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="pressure" value="No" data-score="0">
+                            No
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="pressure" value="Yes" data-score="2">
+                            Sí
+                        </label>
+                    </li>
+                </ul>
+                <div class="quiz-nav mt-3">
+                    <button class="btn btn-secondary prev">Anterior</button>
+                    <span class="ml-2 mr-2">Pregunta 6 de 8</span>
+                    <button class="btn btn-primary next" disabled>Siguiente</button>
+                </div>
+            </div>
+
+            <div id="question-8" class="question-panel seven bg-light p-4 rounded shadow">
+                <h3><span class="number">7.</span> ¿Le han encontrado alguna vez valores de glucosa (azúcar) altos?
+                    <small>(p.e. en un control médico, durante una enfermedad, durante el embarazo)</small>
+                </h3>
+                <ul id="option-group-8" class="option-group list-unstyled">
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="glucose" value="No" data-score="0">
+                            No
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="glucose" value="Yes" data-score="5">
+                            Sí
+                        </label>
+                    </li>
+                </ul>
+                <div class="quiz-nav mt-3">
+                    <button class="btn btn-secondary prev">Anterior</button>
+                    <span class="ml-2 mr-2">Pregunta 7 de 8</span>
+                    <button class="btn btn-primary next" disabled>Siguiente</button>
+                </div>
+            </div>
+
+            <div id="question-9" class="question-panel eight bg-light p-4 rounded shadow">
+                <h3><span class="number">8.</span> ¿Alguno de sus familiares allegados u otros parientes ha sido
+                    diagnosticado con diabetes? <small>(tipo 1 o tipo 2)</small></h3>
+                <ul id="option-group-9" class="option-group list-unstyled">
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="family" value="No" data-score="0">
+                            No
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="family" value="Yes: grandparent, aunt, uncle or first cousin"
+                                data-score="3">
+                            Sí: abuelos, tía, tío, primo hermano
+                        </label>
+                    </li>
+                    <li class="survey-option">
+                        <label>
+                            <input type="radio" name="family" value="Yes: parent, brother, sister or own child"
+                                data-score="5">
+                            Sí: padres, hermanos o hijos
+                        </label>
+                    </li>
+                </ul>
+                <div class="quiz-nav mt-3">
+                    <button class="btn btn-secondary prev">Anterior</button>
+                    <span class="ml-2 mr-2">Pregunta 8 de 8</span>
+                    <button id="submit-button" class="btn btn-success">Finalizar Test</button>
+                </div>
+            </div>
+
+            <div id="question-10" class="question-panel results-panel bg-light p-4 rounded shadow">
+                <h2>Resultados del Test</h2>
+                <div class="my-result result-low active">
+                    <h4 class="result-heading"><span class="live-score">0</span> - Bajo riesgo</h4>
+                    <p>Se estima que 1 de cada 100 personas con esta puntuación desarrollará la enfermedad.</p>
+                    <p>Mantener un estilo de vida saludable es clave. Siga hábitos alimenticios equilibrados y realice
+                        actividad física regularmente.</p>
+                </div>
+                <div class="my-result result-elevated">
+                    <h4 class="result-heading"><span class="live-score">0</span> - Riesgo ligeramente elevado</h4>
+                    <p>Se estima que 1 de cada 25 personas con esta puntuación desarrollará la enfermedad.</p>
+                    <p>Considere realizar cambios en su estilo de vida, como mejorar su dieta y aumentar su actividad
+                        física. Consulte a su médico para obtener más información y seguimiento.</p>
+                </div>
+                <div class="my-result result-moderate">
+                    <h4 class="result-heading"><span class="live-score">0</span> - Riesgo moderado</h4>
+                    <p>Se estima que 1 de cada 6 personas con esta puntuación desarrollará la enfermedad.</p>
+                    <p>Es importante que hable con su médico sobre su riesgo y considere realizar cambios significativos
+                        en su estilo de vida. Un seguimiento médico regular es recomendable.</p>
+                </div>
+                <div class="my-result result-high">
+                    <h4 class="result-heading"><span class="live-score">0</span> - Alto riesgo</h4>
+                    <p>Se estima que 1 de cada 3 personas con esta puntuación desarrollará la enfermedad.</p>
+                    <p>Le recomendamos encarecidamente que consulte a su médico para una evaluación más detallada y para
+                        discutir estrategias de prevención y posible detección temprana.</p>
+                </div>
+                <div class="my-result result-very-high">
+                    <h4 class="result-heading"><span class="live-score">0</span> - Riesgo muy alto</h4>
+                    <p>Se estima que 1 de cada 2 personas con esta puntuación desarrollará la enfermedad.</p>
+                    <p>Es crucial que consulte a su médico de inmediato para una evaluación exhaustiva y para tomar
+                        medidas preventivas o de detección temprana.</p>
+                </div>
+                <div class="results-nav mt-4">
+                    <a class="btn btn-info" href="https://www.idf.org/aboutdiabetes/type-2-diabetes.html"
+                        target="_blank" rel="noopener noreferrer">Más información</a>
+                    <button id="restart-button" class="btn btn-secondary ml-2">Comenzar de nuevo</button>
+                    <button class="btn btn-outline-secondary ml-2" onclick="window.print()">Imprimir el
+                        resultado</button>
+                </div>
+                <div class="mt-3">
+                    <h5>Compartir test</h5>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Ocultar todos los paneles de preguntas excepto el primero
+            $('.question-panel').not('.start-panel').hide();
+            $('.start-panel').addClass('active');
+
+            let currentQuestion = 1;
+            let totalScore = 0;
+            const totalQuestions = $('.question-panel:not(.start-panel, .results-panel)').length;
+
+            // Función para mostrar el panel de pregunta actual y ocultar los demás
+            function showQuestion(questionNumber) {
+                $('.question-panel').removeClass('active').hide();
+                $('#question-' + questionNumber).addClass('active').show();
+
+                // Actualizar la visualización del número de pregunta
+                $('.quiz-nav span').text(`Pregunta ${questionNumber - 1} de ${totalQuestions}`);
+
+                // Deshabilitar el botón "Siguiente" al cargar una nueva pregunta (excepto en el panel de inicio)
+                if (questionNumber !== 1 && questionNumber <= totalQuestions + 1) {
+                    const nextButton = $('#question-' + questionNumber + ' .next');
+                    const radioButtons = $('#question-' + questionNumber + ' input[type="radio"]');
+                    nextButton.prop('disabled', !radioButtons.is(':checked'));
+                } else if (questionNumber === totalQuestions + 1) {
+                    $('.quiz-nav span').text(`Resultados`); // En el panel de resultados
+                }
+                // Ocultar/mostrar botones "Anterior"
+                $('.question-panel:not(.start-panel) .prev').show();
+                $('#question-2 .prev').hide(); // Ocultar "Anterior" en la primera pregunta
+            }
+
+            // Habilitar el botón "Siguiente" cuando se selecciona una opción (en los paneles de preguntas)
+            $('.question-panel:not(.start-panel, .results-panel) .option-group input[type="radio"]').change(function () {
+                $(this).closest('.question-panel').find('.next').prop('disabled', false);
+                $(this).closest('.question-panel').find('.progress-message').hide();
+            });
+
+            // Evento para el botón "Comenzar"
+            $('.start-panel .next').click(function () {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            });
+
+            // Evento para el botón "Siguiente"
+            // $('.question-panel:not(.start-panel, .results-panel) .next').click(function () {
+            //     const currentPanelId = $(this).closest('.question-panel').attr('id');
+            //     const selectedOption = $('#' + currentPanelId + ' input[type="radio"]:checked');
+
+            //     if (selectedOption.length > 0) {
+            //         totalScore += parseInt(selectedOption.data('score'));
+            //         currentQuestion++;
+            //         if (currentQuestion <= totalQuestions) {
+            //             showQuestion(currentQuestion);
+            //         } else {
+            //             showResults();
+            //         }
+            //     } else {
+            //         $(this).closest('.question-panel').find('.progress-message').show();
+            //         setTimeout(() => {
+            //             $(this).closest('.question-panel').find('.progress-message').fadeOut();
+            //         }, 2000);
+            //     }
+            // });
+
+            // Evento para el botón "Siguiente"
+            $('.question-panel:not(.start-panel, .results-panel) .next').click(function () {
+                const currentPanelId = $(this).closest('.question-panel').attr('id');
+                const selectedOption = $('#' + currentPanelId + ' input[type="radio"]:checked');
+
+                if (selectedOption.length > 0) {
+                    let score = 0;
+                    if (currentPanelId === 'question-4') { // Pregunta del perímetro de cintura
+                        if (selectedOption.data('score-men') !== undefined) {
+                            score = parseInt(selectedOption.data('score-men'));
+                        } else if (selectedOption.data('score-women') !== undefined) {
+                            score = parseInt(selectedOption.data('score-women'));
+                        }
+                    } else {
+                        score = parseInt(selectedOption.data('score'));
+                    }
+                    totalScore += score;
+                    currentQuestion++;
+                    if (currentQuestion <= totalQuestions) {
+                        showQuestion(currentQuestion);
+                    } else {
+                        showResults();
+                    }
+                } else {
+                    $(this).closest('.question-panel').find('.progress-message').show();
+                    setTimeout(() => {
+                        $(this).closest('.question-panel').find('.progress-message').fadeOut();
+                    }, 2000);
+                }
+            });
+
+            // Evento para el botón "Anterior"
+            $('.question-panel:not(.start-panel, .results-panel) .prev').click(function () {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            });
+
+            // Calcular IMC y habilitar la opción correspondiente
+            $('#question-3 .calc-field').on('input', function () {
+                const height = parseFloat($('#height').val()) / 100; // Convertir cm a metros
+                const weight = parseFloat($('#weight').val());
+                const bmiResult = $('#question-3 .bmi-result');
+
+                if (height > 0 && weight > 0) {
+                    const bmi = weight / (height * height);
+                    bmiResult.text(bmi.toFixed(2));
+
+                    $('#question-3 input[name="bmi"]').prop('checked', false); // Desmarcar todas las opciones de IMC
+                    $('#question-3 .next').prop('disabled', true);
+
+                    if (bmi < 25) {
+                        $('#question_2_1').prop('checked', true);
+                        $('#question-3 .next').prop('disabled', false);
+                    } else if (bmi >= 25 && bmi <= 30) {
+                        $('#question_2_2').prop('checked', true);
+                        $('#question-3 .next').prop('disabled', false);
+                    } else if (bmi > 30) {
+                        $('#question_2_3').prop('checked', true);
+                        $('#question-3 .next').prop('disabled', false);
+                    }
+                } else {
+                    bmiResult.text('');
+                    $('#question-3 input[name="bmi"]').prop('checked', false);
+                    $('#question-3 .next').prop('disabled', true);
+                }
+            });
+
+            // Manejar la lógica para los radios de cintura (hombres y mujeres)
+            // $('#question-4 .option-group input[name="waist_men"], #question-4 .option-group input[name="waist_women"]').change(function () {
+            //     $('#question-4 .next').prop('disabled', !($('#question-4 input[name="waist_men"]:checked').length > 0 || $('#question-4 input[name="waist_women"]:checked').length > 0));
+            // });
+
+            // Manejar la lógica para los radios de cintura (hombres y mujeres)
+            $('#question-4 .option-group input[name="waist"]').change(function () {
+                $('#question-4 .next').prop('disabled', false); // Habilitar "Siguiente" al seleccionar una opción
+                $('#question-4 .progress-message').hide(); // Ocultar mensaje de error si estaba visible
+            });
+
+            // Evento para el botón "Finalizar Test"
+            // $('#submit-button').click(function () {
+            //     const lastQuestionPanelId = $(this).closest('.question-panel').attr('id');
+            //     const lastSelectedOption = $('#' + lastQuestionPanelId + ' input[type="radio"]:checked');
+            //     if (lastSelectedOption.length > 0) {
+            //         totalScore += parseInt(lastSelectedOption.data('score'));
+            //         showResults();
+            //     } else {
+            //         $(this).closest('.question-panel').find('.progress-message').show();
+            //         setTimeout(() => {
+            //             $(this).closest('.question-panel').find('.progress-message').fadeOut();
+            //         }, 2000);
+            //     }
+            // });
+
+            // Evento para el botón "Finalizar Test"
+            $('#submit-button').click(function () {
+                const lastQuestionPanelId = $(this).closest('.question-panel').attr('id');
+                const lastSelectedOption = $('#' + lastQuestionPanelId + ' input[type="radio"]:checked');
+                if (lastSelectedOption.length > 0) {
+                    let score = 0;
+                    // Lógica para obtener la puntuación de la última pregunta si es la de cintura
+                    if (lastQuestionPanelId === 'question-4') {
+                        if (lastSelectedOption.data('score-men') !== undefined) {
+                            score = parseInt(lastSelectedOption.data('score-men'));
+                        } else if (lastSelectedOption.data('score-women') !== undefined) {
+                            score = parseInt(lastSelectedOption.data('score-women'));
+                        }
+                    } else {
+                        score = parseInt(lastSelectedOption.data('score'));
+                    }
+                    totalScore += score;
+                    showResults();
+                } else {
+                    $(this).closest('.question-panel').find('.progress-message').show();
+                    setTimeout(() => {
+                        $(this).closest('.question-panel').find('.progress-message').fadeOut();
+                    }, 2000);
+                }
+            });
+
+            // Función para mostrar los resultados
+            function showResults() {
+                $('.question-panel').removeClass('active').hide();
+                $('#question-10').addClass('active').show();
+                $('.live-score').text(totalScore);
+                $('.results-panel .my-result').removeClass('active').hide();
+
+                if (totalScore < 7) {
+                    $('.results-panel .result-low').addClass('active').show();
+                } else if (totalScore >= 7 && totalScore <= 11) {
+                    $('.results-panel .result-elevated').addClass('active').show();
+                } else if (totalScore >= 12 && totalScore <= 14) {
+                    $('.results-panel .result-moderate').addClass('active').show();
+                } else if (totalScore >= 15 && totalScore <= 20) {
+                    $('.results-panel .result-high').addClass('active').show();
+                } else if (totalScore > 20) {
+                    $('.results-panel .result-very-high').addClass('active').show();
+                }
+            }
+
+            // Evento para el botón "Comenzar de nuevo"
+            $('#restart-button').click(function () {
+                currentQuestion = 1;
+                totalScore = 0;
+                $('.option-group input[type="radio"]').prop('checked', false);
+                $('.question-panel').removeClass('active').hide();
+                $('.start-panel').addClass('active').show();
+                $('#question-3 .bmi-result').text('');
+                $('#question-3 input[name="bmi"]').prop('checked', false);
+                // No deshabilitamos el botón "Comenzar" aquí
+            });
+
+            // Inicializar mostrando la primera pregunta (panel de inicio)
+            showQuestion(currentQuestion);
+        });
+    </script>
+</body>
+
+</html>

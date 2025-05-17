@@ -1,0 +1,61 @@
+ /* Estilos para el panel de inicio */
+ .start-panel h2 {
+     color: var(--bs-primary);
+     /* Usar el color primario de Bootstrap */
+     margin-bottom: 1rem;
+ }
+
+ .start-panel .btn-primary {
+     font-weight: bold;
+     padding: 12px 24px;
+     border-radius: 0.3rem;
+ }
+
+ .question-panel {
+     display: none;
+ }
+
+ .question-panel.active {
+     display: block;
+ }
+
+ .survey-option label {
+     display: block;
+     margin-bottom: 0.5rem;
+     cursor: pointer;
+     border: 1px solid #ccc;
+     border-radius: 0.25rem;
+     padding: 0.75rem;
+ }
+
+ .survey-option input[type="radio"] {
+     margin-right: 0.5rem;
+ }
+
+ .quiz-nav {
+     margin-top: 1rem;
+ }
+
+ .progress-message {
+     color: red;
+     font-size: 0.9rem;
+ }
+
+ .result-panel .my-result {
+     display: none;
+ }
+
+ .result-panel .my-result.active {
+     display: block;
+ }
+
+ .calculator-element label,
+ .calculator-element input {
+     display: block;
+     margin-bottom: 0.5rem;
+ }
+
+ .result-wrap {
+     margin-top: 0.5rem;
+     font-weight: bold;
+ }

@@ -1,0 +1,7 @@
+#courseModal {
+    z-index: 100000 !important;
+}
+
+.modal-backdrop.course-modal-backdrop {
+    z-index: 99999 !important;
+}

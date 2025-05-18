@@ -23,13 +23,14 @@
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">courseModal
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
   <link href="assets/css/test-prediabetes.css" rel="stylesheet">
+  <link href="assets/css/course.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Medilab
@@ -71,14 +72,52 @@
 
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="#hero" class="active">Home<br></a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#departments">Departments</a></li>
-            <li><a href="#doctors">Doctors</a></li>
-            <li><a href="#complications">Complicaciones</a></li>
-            <li><a href="#test">Test Prediabetes</a></li>
-            <li class="dropdown"><a href="#"><span>Dropdown</span> <i
+            <li><a href="#hero" class="active">Inicio<br></a></li>
+            <!-- <li><a href="#about">Infórmate</a></li> -->
+            <li class="dropdown"><a href="#"><span>Infórmate</span> <i
+                  class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">¿Qué es diabetes?</a></li>
+                <li><a href="#">Diabetes tipo 1</a></li>
+                <li><a href="#">Diabetes tipo 2</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Control y tratamiento</span> <i
+                  class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">Uso del glucómetro</a></li>
+                <li><a href="#">Valores normales</a></li>
+                <li><a href="#">Diagnóstico</a></li>
+                <li class="dropdown"><a href="#"><span>Medicamentos</span> <i
+                      class="bi bi-chevron-down toggle-dropdown"></i></a>
+                  <ul>
+                    <li><a href="#">Orales</a></li>
+                    <li><a href="#">Inyectables</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <!-- <li><a href="#services">Services</a></li> -->
+            <!-- <li><a href="#departments">Departments</a></li> -->
+            <!-- <li><a href="#doctors">Doctors</a></li> -->
+            <!-- <li><a href="#complications">Consecuencias</a></li> -->
+            <li class="dropdown"><a href="#"><span>Consecuencias</span> <i
+                  class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">Hipoglicemia</a></li>
+                <li><a href="#complications">Complicaciones</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>Vive saludable</span> <i
+                  class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">Alimentación</a></li>
+                <li><a href="#">Ejercicio</a></li>
+              </ul>
+            </li>
+            <li><a href="#test">Test de riesgo</a></li>
+            <li><a href="#course">Curso</a></li>
+            <!-- <li class="dropdown"><a href="#"><span>Dropdown</span> <i
                   class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="#">Dropdown 1</a></li>
@@ -96,13 +135,13 @@
                 <li><a href="#">Dropdown 3</a></li>
                 <li><a href="#">Dropdown 4</a></li>
               </ul>
-            </li>
-            <li><a href="#contact">Contact</a></li>
+            </li> -->
+            <!-- <li><a href="#contact">Contact</a></li> -->
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a class="cta-btn d-none d-sm-block" href="#appointment">Make an Appointment</a>
+        <!-- <a class="cta-btn d-none d-sm-block" href="#appointment">Make an Appointment</a> -->
 
       </div>
 
@@ -552,92 +591,36 @@
 
     </section><!-- /Departments Section -->
 
-    <!-- Doctors Section -->
-    <section id="doctors" class="doctors section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Doctors</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/doctors/doctors-1.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Medical Officer</span>
-                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/doctors/doctors-2.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Anesthesiologist</span>
-                <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/doctors/doctors-3.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>Cardiology</span>
-                <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/doctors/doctors-4.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Amanda Jepson</h4>
-                <span>Neurosurgeon</span>
-                <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
+    <!-- Course Section -->
+    <section id="course" class="doctors section py-5 bg-light">
+      <div class="container text-center section-title" data-aos="fade-up">
+        <div class="mx-auto mb-4">
+          <h2 class="mb-3">Curso</h2>
+          <p class="text-muted">
+            Explora este curso interactivo con videos educativos seleccionados para ti. Aprende qué es la diabetes, sus
+            tipos,
+            el uso correcto del glucómetro, valores normales, tratamiento, aplicación de insulina, hipoglucemia y
+            complicaciones
+            como el pie diabético. Información clara, visual y confiable para cuidar mejor tu salud o la de tu familia.
+          </p>
         </div>
 
-      </div>
+        <!-- Imagen centrada -->
+        <div class="d-flex flex-column align-items-center">
+          <img src="./assets/img/course-diabetes.jpg" alt="Imagen sobre la diabetes"
+            class="img-fluid rounded shadow mb-4" style="max-width: 620px;" data-aos="zoom-in" />
 
-    </section><!-- /Doctors Section -->
+          <!-- Botón debajo de la imagen -->
+          <button type="button" class="btn btn-primary btn-lg px-4 py-2" data-bs-toggle="modal"
+            data-bs-target="#courseModal">
+            Abrir curso interactivo
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- /Course Section -->
 
     <!-- Faq Section -->
     <section id="faq" class="faq section light-background">
@@ -832,6 +815,10 @@
                 <h2>¿Conoces tu riesgo de Diabetes Tipo 2?</h2>
                 <p class="lead">Una prueba rápida, fácil y confidencial para evaluar tu riesgo en solo unos
                   minutos.</p>
+                <p class="lead">
+                  El test de FINDRISK te ayuda a saber si tienes riesgo de desarrollar diabetes tipo 2. Es rápido,
+                  sencillo y útil para cuidar tu salud. ¡Anímate a hacerlo!
+                </p>
                 <div class="quiz-nav mt-3">
                   <button class="btn btn-primary btn-lg next">¡Comenzar ahora!</button>
                 </div>
@@ -1630,6 +1617,47 @@
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
 
+  <!-- <div class="modal fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="courseModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="courseModalLabel">Curso Interactivo sobre Diabetes</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Course modal -->
+  <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="courseModalLabel">Curso interactivo sobre Diabetes</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <!-- Course content -->
+
+          <!-- End course content -->
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End course modal -->
+
   <!-- Preloader -->
   <div id="preloader"></div>
 
@@ -1675,7 +1703,7 @@
         }
         // Ocultar/mostrar botones "Anterior"
         $('.question-panel:not(.start-panel) .prev').show();
-        $('#question-2 .prev').hide(); // Ocultar "Anterior" en la primera pregunta
+        // $('#question-2 .prev').hide(); // Ocultar "Anterior" en la primera pregunta
       }
 
       // Habilitar el botón "Siguiente" cuando se selecciona una opción (en los paneles de preguntas)

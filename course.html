@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Curso Interactivo</title>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+
+
+    <style>
+        .sidebar {
+            height: 100vh;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-right: 1px solid #dee2e6;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            overflow-y: auto;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            z-index: 1001;
+
+            /* Ensure it's above other content */
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* @media (max-width: 767.98px) {
+            .sidebar {
+                left: -300px;
+            }
+
+            body {
+                margin-left: 0 !important;
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+        } */
+
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -300px;
+                display: none;
+                background-color: #f8f9fa;
+                padding: 1rem;
+            }
+
+            body {
+                margin-left: 0 !important;
+            }
+
+            .sidebar.active {
+                display: block;
+                position: absolute;
+                z-index: 1000;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 80%;
+                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+        }
+
+        body.sidebar-open {
+            margin-left: 300px;
+        }
+
+        .content {
+            margin-left: 320px;
+            padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        @media (max-width: 767.98px) {
+            .content {
+                margin-left: 0 !important;
+                padding-top: 60px;
+                /* Adjust for fixed navbar */
+            }
+        }
+
+        .lesson {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .lesson.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lesson-title {
+            margin-bottom: 1.5rem;
+            color: #343a40;
+        }
+
+        .locked {
+            color: #6c757d !important;
+            cursor: not-allowed !important;
+            opacity: 0.7;
+        }
+
+        .locked:hover {
+            background-color: transparent !important;
+        }
+
+        #quiz-module,
+        #certificate-module,
+        #results {
+            display: none;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .progress-bar-container {
+            margin-top: 2rem;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+
+        .list-group-item-action:not(.locked):hover {
+            background-color: #ced4da;
+            cursor: pointer;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            /* Proporción 16:9 */
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .question {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+            border-color: #6c757d;
+        }
+
+        /* Quiz */
+        .quiz-card {
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .question-card {
+            border-left: 5px solid #0d6efd;
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .form-check {
+            padding: 0.75rem 1.25rem;
+            padding-left: 3rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
+            background-color: white;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-check:hover {
+            background-color: #e9ecef;
+        }
+
+        .form-check-input:checked~.form-check-label {
+            font-weight: 600;
+        }
+
+        .progress {
+            height: 0.8rem;
+            border-radius: 1rem;
+        }
+
+        .btn-quiz {
+            border-radius: 2rem;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+        }
+
+        .quiz-title {
+            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .results-container {
+            display: none;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-top: 2rem;
+            background-color: #f0f9ff;
+            border: 1px solid #cfe2ff;
+        }
+
+        .correct-answer {
+            background-color: #d1e7dd !important;
+            border-left: 5px solid #198754;
+        }
+
+        .incorrect-answer {
+            background-color: #f8d7da !important;
+            border-left: 5px solid #dc3545;
+        }
+
+        .question-number {
+            background-color: #0d6efd;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+        }
+
+        .form-check-input {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-3 col-lg-3 sidebar">
+                <div class="sidebar-header">
+                    <h2 class="h5 mb-0">Contenido</h2>
+                    <button class="btn btn-sm btn-outline-secondary sidebar-toggle d-md-none">
+                        <i class="bi bi-list"></i>
+                    </button>
+                </div>
+                <ul class="list-group" id="lesson-menu">
+                    <li class="list-group-item list-group-item-action active" data-lesson="lesson1" data-index="0">
+                        Lección 1: ¿Qué es la diabetes?</li>
+                    <li class="list-group-item list-group-item-action locked" data-lesson="lesson2" data-index="1">
+                        Lección 2: Diabetes tipo 1</li>
+                    <li class="list-group-item list-group-item-action locked" data-lesson="lesson3" data-index="2">
+                        Lección 3: Diabetes tipo 2</li>
+                    <li class="list-group-item list-group-item-action locked" data-lesson="lesson4" data-index="3">
+                        Lección 4: Uso correcto del glucómetro</li>
+                    <li class="list-group-item list-group-item-action locked" data-lesson="lesson5" data-index="4">
+                        Lección 5: Normales valores de la glucometría</li>
+                    <li class="list-group-item list-group-item-action locked" data-lesson="lesson6" data-index="5">
+                        Lección 6: Tratamiento</li>
+                    <li class="list-group-item list-group-item-action locked" data-lesson="lesson7" data-index="6">
+                        Lección 7: Administración de la insulina</li>
+                    <li class="list-group-item list-group-item-action locked" data-lesson="lesson8" data-index="7">
+                        Lección 8: Hipoglisemia</li>
+                    <li class="list-group-item list-group-item-action locked" data-lesson="lesson9" data-index="8">
+                        Lección 9: Complicaciones</li>
+                    <li class="list-group-item list-group-item-action locked" data-lesson="lesson10" data-index="9">
+                        Lección 10: Pie diabético</li>
+                    <li class="list-group-item list-group-item-action locked" data-lesson="quiz-module" data-index="10">
+                        Cuestionario Final</li>
+                </ul>
+                <div class="progress-bar-container mt-3">
+                    <label for="course-progress" class="form-label">Progreso del Curso:</label>
+                    <div class="progress">
+                        <div class="progress-bar" id="course-progress" role="progressbar" style="width: 0%;"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+                <button class="btn btn-success btn-block mt-4" id="show-certificate-button" disabled>Generar
+                    Certificado</button>
+                <div class="mt-3">
+                    <button class="btn btn-outline-secondary btn-sm btn-block mt-2" id="reset-progress">Resetear
+                        Progreso</button>
+                </div>
+            </nav>
+            <main class="col-md-9 col-lg-9 content">
+                <button class="btn btn-outline-secondary sidebar-toggle d-md-none mb-3">
+                    <i class="bi bi-list"></i> Menú del Curso
+                </button>
+                <div id="lesson1" class="lesson active" data-index="0">
+                    <h2 class="lesson-title">Lección 1: ¿Qué es la diabetes?</h2>
+                    <p>
+                        Bienvenido al curso. Aquí encontrarás una introducción al tema de la diabetes, sus causas, y
+                        cómo afecta al cuerpo.
+                    </p>
+
+                    <!-- Video responsivo de YouTube -->
+                    <div class="video-container mb-4">
+                        <iframe src="https://www.youtube.com/embed/S466XNycHuM" title="Video: ¿Qué es la diabetes?"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen referrerpolicy="strict-origin-when-cross-origin">
+                        </iframe>
+                    </div>
+
+                    <!-- Botón de siguiente lección -->
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-lg next-lesson" data-next="lesson2" data-index="0">
+                            Siguiente Lección
+                        </button>
+                    </div>
+                </div>
+
+
+                <div id="lesson2" class="lesson" data-index="1">
+                    <h2 class="lesson-title">Lección 2: Fundamentos</h2>
+                    <p>En esta lección, exploraremos los fundamentos básicos del tema...</p>
+                    <img src="ruta/a/tu/imagen2.jpg" alt="Imagen de Fundamentos" class="img-fluid">
+                    <p>Más contenido de la lección 2...</p>
+                    <button class="btn btn-secondary prev-lesson" data-prev="lesson1" data-index="1">Anterior
+                        Lección</button>
+                    <button class="btn btn-primary next-lesson" data-next="lesson3" data-index="1">Siguiente
+                        Lección</button>
+                </div>
+
+                <div id="lesson3" class="lesson" data-index="2">
+                    <h2 class="lesson-title">Lección 3: Primeros Pasos</h2>
+                    <p>Esta lección te guiará a través de los primeros pasos prácticos...</p>
+                    <video width="560" height="315" controls>
+                        <source src="ruta/a/tu/video1.mp4" type="video/mp4">
+                        Tu navegador no soporta el formato de video.
+                    </video>
+                    <p>Contenido de los primeros pasos...</p>
+                    <button class="btn btn-secondary prev-lesson" data-prev="lesson2" data-index="2">Anterior
+                        Lección</button>
+                    <button class="btn btn-primary next-lesson" data-next="lesson4" data-index="2">Siguiente
+                        Lección</button>
+                </div>
+
+                <div id="lesson4" class="lesson" data-index="3">
+                    <h2 class="lesson-title">Lección 4: Conceptos Clave</h2>
+                    <p>Aquí aprenderás sobre los conceptos clave que son cruciales para entender el tema...</p>
+                    <img src="ruta/a/tu/imagen3.jpg" alt="Imagen de Conceptos Clave" class="img-fluid">
+                    <p>Explicación de los conceptos clave...</p>
+                    <button class="btn btn-secondary prev-lesson" data-prev="lesson3" data-index="3">Anterior
+                        Lección</button>
+                    <button class="btn btn-primary next-lesson" data-next="lesson5" data-index="3">Siguiente
+                        Lección</button>
+                </div>
+
+                <div id="lesson5" class="lesson" data-index="4">
+                    <h2 class="lesson-title">Lección 5: Herramientas Esenciales</h2>
+                    <p>En esta lección, te presentaremos las herramientas esenciales que necesitarás...</p>
+                    <p>Descripción de las herramientas...</p>
+                    <button class="btn btn-secondary prev-lesson" data-prev="lesson4" data-index="4">Anterior
+                        Lección</button>
+                    <button class="btn btn-primary next-lesson" data-next="lesson6" data-index="4">Siguiente
+                        Lección</button>
+                </div>
+
+                <div id="lesson6" class="lesson" data-index="5">
+                    <h2 class="lesson-title">Lección 6: Práctica Inicial</h2>
+                    <p>Es hora de poner en práctica lo que has aprendido con estos ejercicios iniciales...</p>
+                    <p>Ejercicios de práctica...</p>
+                    <button class="btn btn-secondary prev-lesson" data-prev="lesson5" data-index="5">Anterior
+                        Lección</button>
+                    <button class="btn btn-primary next-lesson" data-next="lesson7" data-index="5">Siguiente
+                        Lección</button>
+                </div>
+
+                <div id="lesson7" class="lesson" data-index="6">
+                    <h2 class="lesson-title">Lección 7: Casos de Estudio</h2>
+                    <p>Analizaremos algunos casos de estudio relevantes para comprender mejor la aplicación del tema...
+                    </p>
+                    <p>Presentación de los casos de estudio...</p>
+                    <button class="btn btn-secondary prev-lesson" data-prev="lesson6" data-index="6">Anterior
+                        Lección</button>
+                    <button class="btn btn-primary next-lesson" data-next="lesson8" data-index="6">Siguiente
+                        Lección</button>
+                </div>
+
+                <div id="lesson8" class="lesson" data-index="7">
+                    <h2 class="lesson-title">Lección 8: Técnicas Avanzadas</h2>
+                    <p>En esta lección, exploraremos técnicas más avanzadas y especializadas...</p>
+                    <p>Explicación de las técnicas avanzadas...</p>
+                    <button class="btn btn-secondary prev-lesson" data-prev="lesson7" data-index="7">Anterior
+                        Lección</button>
+                    <button class="btn btn-primary next-lesson" data-next="lesson9" data-index="7">Siguiente
+                        Lección</button>
+                </div>
+
+                <div id="lesson9" class="lesson" data-index="8">
+                    <h2 class="lesson-title">Lección 9: Consejos y Trucos</h2>
+                    <p>Aquí encontrarás algunos consejos y trucos útiles para mejorar tu comprensión y aplicación...</p>
+                    <p>Lista de consejos y trucos...</p>
+                    <button class="btn btn-secondary prev-lesson" data-prev="lesson8" data-index="8">Anterior
+                        Lección</button>
+                    <button class="btn btn-primary next-lesson" data-next="lesson10" data-index="8">Siguiente
+                        Lección</button>
+                </div>
+
+                <div id="lesson10" class="lesson" data-index="9">
+                    <h2 class="lesson-title">Lección 10: Recursos Adicionales</h2>
+                    <p>En esta última lección, te proporcionaremos recursos adicionales para que sigas aprendiendo...
+                    </p>
+                    <p>Enlaces y sugerencias de recursos...</p>
+                    <button class="btn btn-secondary prev-lesson" data-prev="lesson9" data-index="9">Anterior
+                        Lección</button>
+                    <button class="btn btn-primary next-lesson" data-next="quiz-module" data-index="9">Ir al
+                        Cuestionario</button>
+                </div>
+
+                <div class="container py-5">
+                    <div id="quiz-module" class="lesson" data-index="10">
+                        <div class="quiz-title text-center">
+                            <h1><i class="bi bi-clipboard-check me-2"></i>Cuestionario Final sobre Diabetes</h1>
+                            <p class="lead mb-0">Pon a prueba tus conocimientos sobre la diabetes</p>
+                        </div>
+
+                        <div class="card quiz-card">
+                            <div class="card-body p-4">
+                                <div class="progress mb-4">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                        role="progressbar" style="width: 10%" id="quiz-progress"></div>
+                                </div>
+
+                                <form id="quiz-form">
+                                    <div class="question-cards">
+                                        <!-- Pregunta 1 -->
+                                        <div class="question-card" id="question-1">
+                                            <h4 class="mb-3"><span class="question-number">1</span> ¿Cuál de las
+                                                siguientes NO es un síntoma común de la diabetes?</h4>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q1" id="q1a"
+                                                    value="a">
+                                                <label class="form-check-label w-100" for="q1a">
+                                                    A. Aumento de la sed
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q1" id="q1b"
+                                                    value="b">
+                                                <label class="form-check-label w-100" for="q1b">
+                                                    B. Micción frecuente
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q1" id="q1c"
+                                                    value="c">
+                                                <label class="form-check-label w-100" for="q1c">
+                                                    C. Aumento de peso inexplicable
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q1" id="q1d"
+                                                    value="d">
+                                                <label class="form-check-label w-100" for="q1d">
+                                                    D. Visión borrosa
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pregunta 2 -->
+                                        <div class="question-card" id="question-2">
+                                            <h4 class="mb-3"><span class="question-number">2</span> ¿Qué hormona es
+                                                responsable de regular el nivel de glucosa en la sangre?</h4>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q2" id="q2a"
+                                                    value="a">
+                                                <label class="form-check-label w-100" for="q2a">
+                                                    A. Glucagón
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q2" id="q2b"
+                                                    value="b">
+                                                <label class="form-check-label w-100" for="q2b">
+                                                    B. Insulina
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q2" id="q2c"
+                                                    value="c">
+                                                <label class="form-check-label w-100" for="q2c">
+                                                    C. Adrenalina
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q2" id="q2d"
+                                                    value="d">
+                                                <label class="form-check-label w-100" for="q2d">
+                                                    D. Cortisol
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pregunta 3 -->
+                                        <div class="question-card" id="question-3">
+                                            <h4 class="mb-3"><span class="question-number">3</span> ¿Cuál es la
+                                                principal diferencia entre la diabetes tipo 1 y la diabetes tipo 2?</h4>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q3" id="q3a"
+                                                    value="a">
+                                                <label class="form-check-label w-100" for="q3a">
+                                                    A. La edad de inicio
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q3" id="q3b"
+                                                    value="b">
+                                                <label class="form-check-label w-100" for="q3b">
+                                                    B. La necesidad de insulina en la tipo 2
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q3" id="q3c"
+                                                    value="c">
+                                                <label class="form-check-label w-100" for="q3c">
+                                                    C. La capacidad del cuerpo para producir insulina
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q3" id="q3d"
+                                                    value="d">
+                                                <label class="form-check-label w-100" for="q3d">
+                                                    D. Los síntomas iniciales
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pregunta 4 -->
+                                        <div class="question-card" id="question-4">
+                                            <h4 class="mb-3"><span class="question-number">4</span> ¿Qué prueba de
+                                                laboratorio se utiliza comúnmente para diagnosticar la diabetes y
+                                                evaluar el control glucémico a largo plazo?</h4>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q4" id="q4a"
+                                                    value="a">
+                                                <label class="form-check-label w-100" for="q4a">
+                                                    A. Glucemia capilar
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q4" id="q4b"
+                                                    value="b">
+                                                <label class="form-check-label w-100" for="q4b">
+                                                    B. Prueba de tolerancia a la glucosa oral (PTGO)
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q4" id="q4c"
+                                                    value="c">
+                                                <label class="form-check-label w-100" for="q4c">
+                                                    C. Hemoglobina glicosilada (HbA1c)
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q4" id="q4d"
+                                                    value="d">
+                                                <label class="form-check-label w-100" for="q4d">
+                                                    D. Insulinemia basal
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pregunta 5 -->
+                                        <div class="question-card" id="question-5">
+                                            <h4 class="mb-3"><span class="question-number">5</span> ¿Cuál de los
+                                                siguientes factores de riesgo está fuertemente asociado con la diabetes
+                                                tipo 2?</h4>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q5" id="q5a"
+                                                    value="a">
+                                                <label class="form-check-label w-100" for="q5a">
+                                                    A. Infecciones virales en la infancia
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q5" id="q5b"
+                                                    value="b">
+                                                <label class="form-check-label w-100" for="q5b">
+                                                    B. Antecedentes familiares de diabetes tipo 1
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q5" id="q5c"
+                                                    value="c">
+                                                <label class="form-check-label w-100" for="q5c">
+                                                    C. Obesidad y sedentarismo
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q5" id="q5d"
+                                                    value="d">
+                                                <label class="form-check-label w-100" for="q5d">
+                                                    D. Exposición a ciertos alérgenos
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pregunta 6 -->
+                                        <div class="question-card" id="question-6">
+                                            <h4 class="mb-3"><span class="question-number">6</span> ¿Qué complicación
+                                                aguda de la diabetes se caracteriza por niveles muy altos de glucosa en
+                                                sangre y cetonas en la orina?</h4>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q6" id="q6a"
+                                                    value="a">
+                                                <label class="form-check-label w-100" for="q6a">
+                                                    A. Hipoglucemia
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q6" id="q6b"
+                                                    value="b">
+                                                <label class="form-check-label w-100" for="q6b">
+                                                    B. Cetoacidosis diabética (CAD)
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q6" id="q6c"
+                                                    value="c">
+                                                <label class="form-check-label w-100" for="q6c">
+                                                    C. Síndrome hiperosmolar hiperglucémico (SHH)
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q6" id="q6d"
+                                                    value="d">
+                                                <label class="form-check-label w-100" for="q6d">
+                                                    D. Neuropatía diabética
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pregunta 7 -->
+                                        <div class="question-card" id="question-7">
+                                            <h4 class="mb-3"><span class="question-number">7</span> ¿Cuál de las
+                                                siguientes recomendaciones dietéticas es importante para una persona con
+                                                diabetes?</h4>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q7" id="q7a"
+                                                    value="a">
+                                                <label class="form-check-label w-100" for="q7a">
+                                                    A. Consumir grandes cantidades de azúcares simples
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q7" id="q7b"
+                                                    value="b">
+                                                <label class="form-check-label w-100" for="q7b">
+                                                    B. Evitar todos los carbohidratos
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q7" id="q7c"
+                                                    value="c">
+                                                <label class="form-check-label w-100" for="q7c">
+                                                    C. Mantener una ingesta constante de carbohidratos complejos y fibra
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q7" id="q7d"
+                                                    value="d">
+                                                <label class="form-check-label w-100" for="q7d">
+                                                    D. No es necesario controlar la dieta
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pregunta 8 -->
+                                        <div class="question-card" id="question-8">
+                                            <h4 class="mb-3"><span class="question-number">8</span> ¿Qué tipo de
+                                                ejercicio se recomienda generalmente para las personas con diabetes?
+                                            </h4>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q8" id="q8a"
+                                                    value="a">
+                                                <label class="form-check-label w-100" for="q8a">
+                                                    A. Solo ejercicios de alta intensidad
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q8" id="q8b"
+                                                    value="b">
+                                                <label class="form-check-label w-100" for="q8b">
+                                                    B. Solo ejercicios de resistencia
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q8" id="q8c"
+                                                    value="c">
+                                                <label class="form-check-label w-100" for="q8c">
+                                                    C. Una combinación de ejercicios aeróbicos y de resistencia
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q8" id="q8d"
+                                                    value="d">
+                                                <label class="form-check-label w-100" for="q8d">
+                                                    D. Evitar cualquier tipo de ejercicio
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pregunta 9 -->
+                                        <div class="question-card" id="question-9">
+                                            <h4 class="mb-3"><span class="question-number">9</span> ¿Cuál de las
+                                                siguientes complicaciones crónicas puede afectar los nervios en personas
+                                                con diabetes?</h4>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q9" id="q9a"
+                                                    value="a">
+                                                <label class="form-check-label w-100" for="q9a">
+                                                    A. Retinopatía diabética
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q9" id="q9b"
+                                                    value="b">
+                                                <label class="form-check-label w-100" for="q9b">
+                                                    B. Nefropatía diabética
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q9" id="q9c"
+                                                    value="c">
+                                                <label class="form-check-label w-100" for="q9c">
+                                                    C. Neuropatía diabética
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q9" id="q9d"
+                                                    value="d">
+                                                <label class="form-check-label w-100" for="q9d">
+                                                    D. Cardiopatía diabética
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pregunta 10 -->
+                                        <div class="question-card" id="question-10">
+                                            <h4 class="mb-3"><span class="question-number">10</span> ¿Cuál es el
+                                                objetivo principal del tratamiento para la diabetes?</h4>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q10" id="q10a"
+                                                    value="a">
+                                                <label class="form-check-label w-100" for="q10a">
+                                                    A. Eliminar completamente la necesidad de medicamentos
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q10" id="q10b"
+                                                    value="b">
+                                                <label class="form-check-label w-100" for="q10b">
+                                                    B. Mantener los niveles de glucosa en sangre lo más cerca posible
+                                                    del
+                                                    rango normal y prevenir complicaciones
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="q10" id="q10c"
+                                                    value="c">
+                                                <label class="form-check-label w-100" for="q10c">
+                                                    C. Permitir una dieta sin restricciones
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q10" id="q10d"
+                                                    value="d">
+                                                <label class="form-check-label w-100" for="q10d">
+                                                    D. Asegurar un aumento de peso significativo
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between mt-4">
+                                        <button type="button" class="btn btn-secondary btn-quiz prev-lesson"
+                                            data-prev="lesson10" data-index="10">
+                                            <i class="bi bi-arrow-left me-2"></i>Lección Anterior
+                                        </button>
+                                        <button type="submit" class="btn btn-primary btn-quiz" id="submit-quiz">
+                                            Finalizar Cuestionario<i class="bi bi-check2-circle ms-2"></i>
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <div id="results" class="results-container">
+                                    <div class="text-center mb-4">
+                                        <h2 class="mb-3">Resultados del Cuestionario</h2>
+                                        <div class="display-4 mb-3" id="score-display">0/10</div>
+                                        <div class="progress mb-3" style="height: 1.5rem;">
+                                            <div class="progress-bar" role="progressbar" style="width: 0%;"
+                                                id="score-bar">0%</div>
+                                        </div>
+                                        <p class="lead" id="feedback-message">Completa el cuestionario para ver tus
+                                            resultados.</p>
+                                    </div>
+
+                                    <div id="answer-review" class="mt-4">
+                                        <!-- Las respuestas correctas se mostrarán aquí -->
+                                    </div>
+
+                                    <div class="d-flex justify-content-center mt-4">
+                                        <button type="button" class="btn btn-outline-primary btn-quiz me-3"
+                                            id="retry-quiz">
+                                            <i class="bi bi-arrow-repeat me-2"></i>Intentar de Nuevo
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-quiz d-none"
+                                            id="continue-course">
+                                            Generar certificado <i class="bi bi-file-earmark-check ms-2"></i>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="certificate-module" class="lesson" data-index="11">
+                    <h2 class="lesson-title">Generar Certificado</h2>
+                    <p>¡Felicidades! Has aprobado el cuestionario.</p>
+                    <button class="btn btn-success" id="generate-certificate-button">Generar Certificado</button>
+                    <div class="text-center mt-3">
+                        <button class="btn btn-secondary prev-lesson" data-prev="quiz-module"
+                            data-index="11">Anterior</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="modal fade" id="userDataModal" tabindex="-1" role="dialog" aria-labelledby="userDataModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userDataModalLabel">Datos para el Certificado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="userDataForm">
+                        <div class="form-group">
+                            <label for="fullName">Nombre Completo:</label>
+                            <input type="text" class="form-control" id="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="identification">Número de Identificación:</label>
+                            <input type="text" class="form-control" id="identification" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Datos</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleButtons = document.querySelectorAll('.sidebar-toggle');
+            const sidebar = document.querySelector('.sidebar');
+
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    console.log('Sidebar toggle button clicked');
+                    sidebar.classList.toggle('active');
+                });
+            });
+        });
+        $(document).ready(function () {
+            const lessonMenu = $('#lesson-menu');
+            const lessons = $('.lesson:not(#quiz-module, #certificate-module)');
+            const quizModule = $('#quiz-module');
+            const certificateModule = $('#certificate-module');
+            const progressBar = $('#course-progress');
+            const showCertificateButton = $('#show-certificate-button');
+            const resetButton = $('#reset-progress'); // Corregir selector
+            const quizForm = $('#quiz-form');
+            const resultsDiv = $('#results');
+            const userDataModal = $('#userDataModal');
+            const userDataForm = $('#userDataForm');
+            let fullName = localStorage.getItem('fullName') || '';
+            let identification = localStorage.getItem('identification') || '';
+            let currentLessonIndex = 0;
+            const totalLessons = lessons.length;
+            let lessonCompletion = localStorage.getItem('lessonCompletion') ? JSON.parse(localStorage.getItem('lessonCompletion')) : Array(totalLessons).fill(false);
+            let quizPassed = localStorage.getItem('quizPassed') === 'true';
+
+            const correctAnswers = {
+                q1: "c", // Aumento de peso inexplicable
+                q2: "b", // Insulina
+                q3: "c", // La capacidad del cuerpo para producir insulina
+                q4: "c", // Hemoglobina glicosilada (HbA1c)
+                q5: "c", // Obesidad y sedentarismo
+                q6: "b", // Cetoacidosis diabética (CAD)
+                q7: "c", // Mantener una ingesta constante de carbohidratos complejos y fibra
+                q8: "c", // Una combinación de ejercicios aeróbicos y de resistencia
+                q9: "c", // Neuropatía diabética
+                q10: "b" // Mantener los niveles de glucosa en sangre lo más cerca posible del rango normal y prevenir complicaciones
+            };
+
+            // Icono para Bootstrap
+            $('head').append('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">');
+
+            // Actualizar la barra de progreso cuando se selecciona una respuesta
+            $('input[type="radio"]').on('change', function () {
+                updateProgressQuiz();
+            });
+
+            // Calcular el progreso
+            function updateProgress() {
+                const totalQuestions = 10;
+                let answeredQuestions = 0;
+
+                for (let i = 1; i <= totalQuestions; i++) {
+                    if ($(`input[name="q${i}"]:checked`).length > 0) {
+                        answeredQuestions++;
+                    }
+                }
+
+                const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+                $('#quiz-progress').css('width', `${progressPercentage}%`);
+                $('#quiz-progress').attr('aria-valuenow', progressPercentage);
+            }
+
+            function updateProgressBar() {
+                const completedLessons = lessonCompletion.filter(Boolean).length;
+                const progress = (completedLessons / totalLessons) * 100;
+                progressBar.css('width', progress + '%').attr('aria-valuenow', progress).text(Math.round(progress) + '%');
+            }
+
+            function showLesson(index) {
+                debugger;
+                lessons.removeClass('active').hide();
+                quizModule.removeClass('active').hide();
+                certificateModule.removeClass('active').hide();
+
+                if (index < totalLessons) {
+                    $(lessons[index]).addClass('active').show();
+                    markLessonComplete(index);
+                } else if (index === totalLessons) {
+                    quizModule.addClass('active').show();
+                } else if (index > totalLessons) {
+                    if (quizPassed && fullName && identification) {
+                        certificateModule.html(`
+                            <h2>Certificado de Finalización</h2>
+                            <p><strong>Nombre Completo:</strong> ${fullName}</p>
+                            <p><strong>Número de Identificación:</strong> ${identification}</p>
+                            <p>¡Felicidades! Has completado el curso.</p>
+                            <button class="btn btn-success">Descargar Certificado (Implementar lógica de descarga)</button>
+                            <button class="btn btn-secondary prev-lesson" data-prev="quiz-module" data-index="11">Anterior</button>
+                        `).addClass('active').show();
+                    } else if (!fullName || !identification) {
+                        userDataModal.modal('show');
+                        return false;
+                    } else if (!quizPassed) {
+                        Swal.fire({
+                            title: 'No has aprobado el cuestionario',
+                            text: 'Debes aprobar el cuestionario para generar el certificado.',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
+                        showLesson(totalLessons); // Volver al cuestionario
+                        return false;
+                    }
+                }
+
+                $('#lesson-menu .list-group-item').removeClass('active');
+                $($('#lesson-menu .list-group-item')[index]).addClass('active');
+                currentLessonIndex = index;
+                updateProgressBar();
+
+                $('#lesson-menu .list-group-item').each(function (i) {
+                    if (i > currentLessonIndex && !lessonCompletion[i]) {
+                        $(this).addClass('locked');
+                    } else if (i <= currentLessonIndex || lessonCompletion[i]) { // Desbloquear lecciones completadas o la actual
+                        $(this).removeClass('locked');
+                    }
+                });
+
+                showCertificateButton.prop('disabled', !(quizPassed && fullName && identification));
+                return true;
+            }
+
+            function markLessonComplete(index) {
+                if (!lessonCompletion[index]) {
+                    lessonCompletion[index] = true;
+                    updateProgressBar();
+                    const nextMenuItem = $('#lesson-menu .list-group-item-action[data-index="' + (index + 1) + '"]');
+                    if (nextMenuItem.length > 0) {
+                        nextMenuItem.removeClass('locked');
+                    }
+                    saveProgress();
+                }
+            }
+
+            function saveProgress() {
+                localStorage.setItem('lessonCompletion', JSON.stringify(lessonCompletion));
+                localStorage.setItem('quizPassed', quizPassed);
+                localStorage.setItem('fullName', fullName);
+                localStorage.setItem('identification', identification);
+            }
+
+            function loadProgress() {
+                const savedCompletion = localStorage.getItem('lessonCompletion');
+                const savedQuizPassed = localStorage.getItem('quizPassed');
+                const savedFullName = localStorage.getItem('fullName');
+                const savedIdentification = localStorage.getItem('identification');
+
+                if (savedCompletion) {
+                    lessonCompletion = JSON.parse(savedCompletion);
+                    updateProgressBar();
+                    fullName = savedFullName || '';
+                    identification = savedIdentification || '';
+                    quizPassed = savedQuizPassed === 'true';
+
+                    let lastIndex = lessonCompletion.lastIndexOf(true);
+                    let initialLessonIndex = 0;
+                    if (lastIndex === totalLessons) {
+                        initialLessonIndex = totalLessons; // Mostrar cuestionario si todas las lecciones completadas
+                    } else if (lastIndex > totalLessons) {
+                        initialLessonIndex = totalLessons + 1; // Mostrar certificado
+                    } else if (lastIndex >= 0) {
+                        initialLessonIndex = lastIndex; // Mostrar la última lección completada
+                    }
+                    showLesson(initialLessonIndex);
+
+                    $('#lesson-menu .list-group-item-action').each(function (i) {
+                        if (i <= initialLessonIndex || lessonCompletion[i]) {
+                            $(this).removeClass('locked');
+                        } else if (i > initialLessonIndex) {
+                            $(this).addClass('locked');
+                        }
+                    });
+                } else {
+                    showLesson(0);
+                }
+                showCertificateButton.prop('disabled', !(quizPassed && fullName && identification));
+            }
+
+            resetButton.on('click', function () { // Usar el selector correcto
+                localStorage.removeItem('lessonCompletion');
+                localStorage.removeItem('quizPassed');
+                localStorage.removeItem('fullName');
+                localStorage.removeItem('identification');
+                fullName = '';
+                identification = '';
+                lessonCompletion = Array(totalLessons).fill(false);
+                quizPassed = false;
+                updateProgressBar();
+                showLesson(0);
+                $('#lesson-menu .list-group-item-action').not(':first-child').addClass('locked');
+                showCertificateButton.prop('disabled', true);
+                resultsDiv.hide().text('');
+                quizForm.show();
+                quizForm.find('input[type="radio"]').prop('checked', false);
+                $('#certificate-module').html(`
+                    <h2>Generar Certificado</h2>
+                    <p>¡Felicidades! Has completado el curso.</p>
+                    <button class="btn btn-success" disabled>Generar Certificado</button>
+                    <button class="btn btn-secondary prev-lesson" data-prev="quiz-module" data-index="11">Anterior</button>
+                `).hide();
+
+                Swal.fire({
+                    title: 'Progreso Restablecido',
+                    text: 'El progreso del curso ha sido restablecido.',
+                    icon: 'info',
+                    confirmButtonText: '¡Entendido!'
+                });
+
+            });
+
+            lessonMenu.on('click', '.list-group-item-action:not(.locked)', function () {
+                const lessonId = $(this).data('lesson');
+                const indexToShow = $('.lesson[id="' + lessonId + '"]').data('index');
+                showLesson(parseInt(indexToShow));
+            });
+
+            $('.content').on('click', '.next-lesson', function () {
+                const currentIndex = parseInt($(this).data('index'));
+                showLesson(currentIndex + 1);
+            });
+
+            $('.content').on('click', '.prev-lesson', function () {
+                const currentIndex = parseInt($(this).data('index'));
+                showLesson(currentIndex - 1);
+            });
+
+            // Calcular el progreso
+            function updateProgressQuiz() {
+                const totalQuestions = 10;
+                let answeredQuestions = 0;
+
+                for (let i = 1; i <= totalQuestions; i++) {
+                    if ($(`input[name="q${i}"]:checked`).length > 0) {
+                        answeredQuestions++;
+                    }
+                }
+
+                const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+                $('#quiz-progress').css('width', `${progressPercentage}%`);
+                $('#quiz-progress').attr('aria-valuenow', progressPercentage);
+            }
+
+            quizForm.on('submit', function (event) {
+                event.preventDefault();
+                let score = 0;
+                let answers = {};
+
+                const $certificateButton = $('#continue-course');
+
+                // Recopilar respuestas y calcular puntuación
+                for (let i = 1; i <= 10; i++) {
+                    const questionName = `q${i}`;
+                    const selectedAnswer = $(`input[name="${questionName}"]:checked`).val();
+
+                    answers[questionName] = selectedAnswer;
+
+                    if (selectedAnswer === correctAnswers[questionName]) {
+                        score++;
+                    }
+                }
+                // Mostrar resultados
+                const percentage = (score / 10) * 100;
+                $('#score-display').text(`${score}/10`);
+                $('#score-bar').css('width', `${percentage}%`);
+                $('#score-bar').text(`${percentage}%`);
+                debugger;
+
+                // Determinar si pasó el cuestionario (70% o más)
+                if (percentage >= 70) {
+                    quizPassed = true;
+                    localStorage.setItem('quizPassed', true);
+                    showCertificateButton.prop('disabled', false);
+                    $certificateButton.removeClass('d-none');
+                } else {
+                    quizPassed = false;
+                    localStorage.setItem('quizPassed', false);
+                    showCertificateButton.prop('disabled', true);
+
+                    // Mostrar mensaje de alerta sobre el certificado
+                    const alertHtml = `
+                        <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            Debes obtener al menos un 70% para desbloquear el certificado.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    `;
+                    $('#results').prepend(alertHtml);
+                }
+
+                $('#score-display').text(`${score}/10`);
+                $('#score-bar').css('width', `${percentage}%`);
+                $('#score-bar').text(`${percentage}%`);
+
+                // Mensaje de retroalimentación
+                let feedbackMessage = '';
+                if (score >= 9) {
+                    feedbackMessage = '¡Excelente! Tienes un gran conocimiento sobre la diabetes.';
+                    $('#feedback-message').removeClass('text-danger text-warning').addClass('text-success');
+                } else if (score >= 7) {
+                    feedbackMessage = 'Buen trabajo. Tienes un conocimiento sólido sobre la diabetes.';
+                    $('#feedback-message').removeClass('text-danger text-success').addClass('text-warning');
+                } else if (score >= 5) {
+                    feedbackMessage = 'Pasable. Necesitas reforzar algunos conceptos sobre la diabetes.';
+                    $('#feedback-message').removeClass('text-success text-danger').addClass('text-warning');
+                } else {
+                    feedbackMessage = 'Necesitas estudiar más. Te recomendamos revisar el material nuevamente.';
+                    $('#feedback-message').removeClass('text-success text-warning').addClass('text-danger');
+                }
+
+                $('#feedback-message').text(feedbackMessage);
+
+                // Generar revisión de respuestas
+                let reviewHtml = '<h4 class="mb-4">Revisión de Respuestas</h4>';
+
+                for (let i = 1; i <= 10; i++) {
+                    const questionName = `q${i}`;
+                    const userAnswer = answers[questionName];
+                    const correctAnswer = correctAnswers[questionName];
+                    const isCorrect = userAnswer === correctAnswer;
+
+                    const questionText = $(`#question-${i} h4`).text().replace(/^\d+\s/, '');
+                    const selectedAnswerText = $(`#${questionName}${userAnswer}`).next('label').text().trim();
+                    const correctAnswerText = $(`#${questionName}${correctAnswer}`).next('label').text().trim();
+
+                    reviewHtml += `
+                        <div class="card mb-3 ${isCorrect ? 'border-success' : 'border-danger'}">
+                            <div class="card-header ${isCorrect ? 'bg-success text-white' : 'bg-danger text-white'}">
+                                <span class="question-number">${i}</span> ${questionText}
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Tu respuesta:</strong> ${selectedAnswerText}</p>
+                                ${!isCorrect ? `<p><strong>Respuesta correcta:</strong> ${correctAnswerText}</p>` : ''}
+                                <div class="mt-2">
+                                    ${isCorrect
+                            ? '<span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Correcto</span>'
+                            : '<span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i>Incorrecto</span>'}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                $('#answer-review').html(reviewHtml);
+
+                // Ocultar formulario y mostrar resultados
+                $('.question-cards').hide();
+                $('#submit-quiz').hide();
+                $('#results').show();
+
+
+
+                saveProgress();
+                // showLesson(totalLessons + 1);
+            });
+
+            // Reintentar cuestionario
+            $('#retry-quiz').on('click', function () {
+                // Restablecer formulario
+                $('#quiz-form')[0].reset();
+
+                // Mostrar preguntas y ocultar resultados
+                $('.question-cards').show();
+                $('#submit-quiz').show();
+                $('#results').hide();
+
+                // Restablecer barra de progreso
+                $('#quiz-progress').css('width', '0%');
+                $('#quiz-progress').attr('aria-valuenow', 0);
+
+                // Eliminar alertas si existen
+                $('.alert').remove();
+            });
+
+            // Continuar con el curso
+            $('#continue-course').on('click', function () {
+                // Aquí puedes agregar la funcionalidad para continuar con la siguiente lección
+                if (typeof showLesson === 'function' && typeof totalLessons !== 'undefined') {
+                    showLesson(totalLessons + 1);
+                } else {
+                    Swal.fire({
+                        title: '¡Felicidades!',
+                        text: 'Felicidades por completar el cuestionario! Continuemos con la siguiente parte del curso.',
+                        icon: 'success', // Iconos: success, error, warning, info, question
+                        confirmButtonText: '¡Entendido!'
+                    });
+                }
+            });
+
+            $('.form-check').on('click', function () {
+                const radioInput = $(this).find('input[type="radio"]');
+                radioInput.prop('checked', true);
+
+                // Desmarcar otros checks en el mismo grupo de preguntas
+                const questionCard = $(this).closest('.question-card');
+                questionCard.find('.form-check').removeClass('active');
+                $(this).addClass('active');
+
+                // Actualizar progreso
+                updateProgressQuiz();
+            });
+
+            showCertificateButton.on('click', function () {
+                if (!fullName || !identification) {
+                    userDataModal.modal('show');
+                } else if (!quizPassed) {
+                    Swal.fire({
+                        title: 'No has aprobado el cuestionario',
+                        text: 'Debes aprobar el cuestionario para generar el certificado.',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
+                    showLesson(totalLessons); // Volver al cuestionario si no se aprobó
+                } else {
+                    showLesson(totalLessons + 1);
+                }
+            });
+
+            userDataForm.on('submit', function (event) {
+                event.preventDefault();
+                const name = $('#fullName').val();
+                const id = $('#identification').val();
+                if (name && id) {
+                    fullName = name;
+                    identification = id;
+                    saveProgress();
+                    userDataModal.modal('hide');
+                    if (quizPassed) {
+                        showLesson(totalLessons + 1);
+                    }
+                } else {
+                    Swal.fire({
+                        title: 'Datos incompletos',
+                        text: 'Por favor, completa todos los campos.',
+                        icon: 'warning',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+            });
+
+            loadProgress();
+            showCertificateButton.prop('disabled', !(quizPassed && fullName && identification));
+        });
+
+        // Inicializar tooltips de Bootstrap
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Certificado</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+    
+    /* Estilo para la animación de girar */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .spin {
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+    
+    body {
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    
+    #certificado {
+      width: 1123px;
+      height: 794px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    
+    #certificado img.fondo {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    
+    #certificado .contenido {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      padding: 0 80px;
+    }
+    
+    #certificado h1 {
+      color: #114377;
+      font-family: 'Playfair Display', serif;
+      font-size: 4.5rem;
+      font-weight: bold;
+      margin-bottom: 0;
+      line-height: 1;
+    }
+    
+    #certificado h1 small {
+      font-size: 2.5rem;
+      display: block;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+    
+    #certificado .nombre {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.8rem;
+      margin: 2.5rem 0 1.5rem;
+      border-bottom: 1px solid #114377;
+      padding-bottom: 0.5rem;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      color: #333;
+    }
+    
+    #certificado .descripcion {
+      font-size: 1.25rem;
+      margin-bottom: 3rem;
+      line-height: 1.6;
+      font-family: 'Playfair Display', serif;
+      color: #114377;
+    }
+    
+    /* Eliminamos la clase sello-container ya que usaremos #sello-container */
+    
+    #firmas {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 1rem;
+      padding: 0 50px;
+      position: relative;
+    }
+    
+    .firma {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 35%;
+      z-index: 1;
+    }
+    
+    #sello-container {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    #sello-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    .firma .linea {
+      width: 100%;
+      border-top: 1px solid #114377;
+      margin-bottom: 0.5rem;
+    }
+    
+    .firma p {
+      margin-bottom: 0;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+    }
+    
+    .firma small {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #114377;
+    }
+    
+    #download-pdf {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      padding: 0.5rem 2rem;
+      background-color: #114377;
+      border: none;
+    }
+    
+    #download-pdf:hover {
+      background-color: #0c325a;
+    }
+    
+    #download-jpg {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      padding: 0.5rem 2rem;
+      background-color: #178344;
+      border: none;
+    }
+    
+    #download-jpg:hover {
+      background-color: #0e6a33;
+    }
+  </style>
+</head>
+<body>
+  <div id="certificado">
+    <img src="./assets/img/certificate-bg.png" alt="Fondo certificado" class="fondo" />
+    <div class="contenido">
+      <h1>
+        CERTIFICADO
+        <small>DE APROBACIÓN</small>
+      </h1>
+      
+      <div class="nombre" id="nombre">Leidy Rojas</div>
+      
+      <p class="descripcion">
+        Por concluir satisfactoriamente el curso de Diabetes Mellitus<br /> 
+        del Programa Educativo Web GlucoSabio.
+      </p>
+      
+      <div id="firmas">
+        <div class="firma">
+          <div class="linea"></div>
+          <p>Ana Carolina M.</p>
+          <small>Ana Carolina Mojica</small>
+          <small>LIDER DE PROCESOS IPS BARZAL</small>
+        </div>
+        
+        <div id="sello-container">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFmklEQVR4nO2dW2gdRRjHf9FWhVJbRUMVStPWh1KlF2MrRWJaqSi++JCaeOpb9UGtolVRK4hXBMELQqMtesAHESsiWlDE4oXW3iyKolhbrYr2hlVqoVpbP/nCfBpPdvfMzuzOzjkfDJwD58zs/s/u3ZlvvkBRFEVRFEVRFEVRFEVRlF5jFrAS2AGcAvqCxynghTBN6SJuAxo9/PgOWCRp7zxgPfDKkGMDmAdkIsj1/k8M1oSyCbJaELxjwCUOsozs59M8cD1wNMp7DsD7wEgjyBVCQ31LiPKrMUaB/ZK4i9EI8qPwBC0Uht0nGQk19IXAaGHYeeBr4OboKuIVsyYRYUZQ82ZhnP8WrEuUCciLCbOUKGbEDPPAtSa+WbPOkqtMfDPZl8zWnmS+JHZNNTbxzTt6fI2SaSxcMx5bI/HNNiQ+K6SRlYPEPxmJbzbp8VmpxnJJ7E/Cr5lWQSZSPjMqoYzkJMl6FHhVErflmEDyRzyfCsn9kvhm1zyf5SZGSiJsXvJ8lhKQspIIq3k+6zEPYtyY8hnSVkFKngjTEqRTBfGCMAWZlSXCKikSe0FYghySJcJ2pXxmdFWQJ4C7gCeDn78AD1m4Fkp3Kfd3zZA2G3kkPGd87vxPsVx4ofROinLrgk3JnAvdLM5JOwgXJbhZjNlzXdqZcWnhzLhB2nm1KRGWRJAZRYlQBbFcdrBdeK1YEWnniXQ7M7Y4zYyWREhHMySGRNg7aTdBL5HGZP9qSW9hRtojfKEwc80LQjNNtUiEVVCQH4QXmTUWri3E76TLjAuSODYuR4UrY8RiZkjuSPvAvlm4pzQr8+q0mDUZbN7bVNgNuUK45tQsXN8C6zpy+A+xEXhYuK26CdI+tpU4NCxcz/zPaRaulTgWWridSFiQdNnMEDNDkgpiYoQwGVZaQQ5buK4zC5eF63FHt+/C/XkHt69jJnGpJfOcZOeUBXulYN+wWNI5F24i+5KkZ9JmyZiTMDMmJcGPOAiRVdZTHUmETQr/npMVk+CYpGdSmJkRQyJsVJgIay/BF8I3DcZdBZkkC9c2QVxcjySz6zC/zAMXHAXImXAHgWssXC8LM01zznZ2mUmymyU7d78OPGrbY15g4cqT7SZ3u2zIbyfbPLvZkwMOE3V5sg2XM8JdUSV9bCe7WgriKMgpC9dpV0FKnQjzWZCOXLI8SYR5I0i3JcK8E8SXRFh7zP9TNNLC9ZClK4ogJyQDR4QFKRsujI95zMKVJXvD1dXMTm+EfW3h2pDwb7Sd7Hu18KbOYmCDMNnZwuH3r/YiEebNZF8lQTqdCLNZGG2wzeIziYYvmXlfEmGlFyRrWbiO4zfmCcNDlq4HgqUW7U2EeSlI2RNhXgnSTYkwrwTppkSYV4J0UyLMtmDPOcEG4/YiEWbbH7XxYQZeJ6zZNgX8iHjnYXsBrfLEUAmvBOmmRJgW7FmWoLYbp+fI1iQsBL4A/rZ06ZrVlEwX9FeuecA7wg28cRyuWc2TDc6+JsKcXZJ9zNPCve5yC9dPwN3CJegtYZy9FcS8IVokEea9IF1WsOddIqzSgjgXw3RhIqzSgrgWw3RpIqzygriYCW6UJcK6QxCXRJgmdtskiGs9iK6M6KAgjnWFuqbVAUHaaybLlgjLiS8+nwOvBZsYu1qQhBQleZsS6BKyemYV3zPDJ0Fci3a6NhHmkyDOiTBdj1XRNcQDQbQeRNcQnSTXfcR0sltZQSqRCPNJEJdEmCZ2OyiIUzGMFuz1gCB6Q7Q3BMlKLvqcpGCvJwSpRCLMJ0GcE2G6hvSGIFqwp2tIpUg6Q1yK+sZJfnpJaYlsHLNJtrzSbF7cRLb1Y6el5xVFURRFURRFURRFUXzgX8xLxNYxASHCAAAAAElFTkSuQmCC" alt="Sello de certificación">
+        </div>
+        
+        <div class="firma">
+          <div class="linea"></div>
+          <p>María Miriam Lema Castaño</p>
+          <small>GERENTE ESE MUNICIPAL</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="d-flex justify-content-center gap-3 mt-3">
+    <button id="download-pdf" class="btn btn-primary">
+      <i class="bi bi-file-earmark-pdf me-2"></i>Descargar PDF
+    </button>
+    <button id="download-jpg" class="btn btn-success">
+      <i class="bi bi-file-earmark-image me-2"></i>Descargar Imagen
+    </button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      const nombre = localStorage.getItem('fullName') || 'Leidy Fernanda Rojas Yaman';
+      const curso = localStorage.getItem('courseName') || 'Diabetes Mellitus';
+      const programa = localStorage.getItem('programName') || 'GlucoSabio';
+      
+      // Cargar el sello si está disponible en localStorage, en caso contrario se usa el sello predeterminado
+      const selloURL = localStorage.getItem('selloURL');
+      if (selloURL) {
+        $('#sello-container img').attr('src', selloURL);
+      }
+      
+      $('#nombre').text(nombre);
+      
+      // Actualizar curso y programa si están disponibles
+      if (curso || programa) {
+        let descripcion = 'Por concluir satisfactoriamente el curso de ';
+        descripcion += curso || 'Diabetes Mellitus';
+        descripcion += '<br />del Programa Educativo Web ';
+        descripcion += programa || 'GlucoSabio';
+        descripcion += '.';
+        
+        $('.descripcion').html(descripcion);
+      }
+    });
+
+    // Función para descargar como PDF
+    $('#download-pdf').on('click', function () {
+      const element = document.getElementById('certificado');
+      const opt = {
+        margin: 0,
+        filename: 'certificado.pdf',
+        image: { type: 'jpeg', quality: 1.0 },
+        html2canvas: { 
+          scale: 2,
+          useCORS: true,
+          logging: true,
+          onclone: function(clonedDoc) {
+            // Ajustar la imagen de fondo en el clon
+            $(clonedDoc).find('.fondo').css({
+              'width': '100%',
+              'height': '100%',
+              'object-fit': 'contain'
+            });
+          }
+        },
+        jsPDF: { 
+          unit: 'px', 
+          format: [1123, 794], 
+          orientation: 'landscape',
+          compress: true
+        }
+      };
+      
+      // Mostrar mensaje de carga
+      $(this).html('<i class="bi bi-arrow-clockwise spin me-2"></i>Generando PDF...').prop('disabled', true);
+      
+      html2pdf().set(opt).from(element).save().then(() => {
+        // Restaurar botón
+        $('#download-pdf').html('<i class="bi bi-file-earmark-pdf me-2"></i>Descargar PDF').prop('disabled', false);
+      });
+    });
+    
+    // Función para descargar como imagen JPG
+    $('#download-jpg').on('click', function() {
+      // Mostrar mensaje de carga
+      $(this).text('Generando imagen...').prop('disabled', true);
+      
+      const element = document.getElementById('certificado');
+      
+      html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: true,
+        onclone: function(clonedDoc) {
+          // Ajustar la imagen de fondo en el clon
+          $(clonedDoc).find('.fondo').css({
+            'width': '100%',
+            'height': '100%',
+            'object-fit': 'contain'
+          });
+        }
+      }).then(function(canvas) {
+        // Crear enlace de descarga
+        const link = document.createElement('a');
+        link.download = 'certificado.jpg';
+        
+        // Convertir el canvas a Blob
+        canvas.toBlob(function(blob) {
+          link.href = URL.createObjectURL(blob);
+          link.click();
+          
+          // Restaurar botón
+          $('#download-jpg').text('Descargar Imagen').prop('disabled', false);
+        }, 'image/jpeg', 1.0);
+      });
+    });
+  </script>
+</body>
+</html>

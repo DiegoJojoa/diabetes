@@ -137,6 +137,13 @@ $(document).ready(function () {
       markLessonComplete(index);
     } else if (index === totalLessons) {
       quizModule.addClass("active").show();
+      // Hacer scroll al top del modal
+      $(".modal-body").animate(
+        {
+          scrollTop: 0,
+        },
+        300
+      );
     } else if (index > totalLessons) {
       if (quizPassed && fullName && identification) {
         certificateModule
@@ -146,7 +153,7 @@ $(document).ready(function () {
                             <p><strong>Nombre Completo:</strong> ${fullName}</p>
                             <p><strong>Número de Identificación:</strong> ${identification}</p>
                             <p>¡Felicidades! Has completado el curso.</p>
-                            <button class="btn btn-success">Descargar Certificado (Implementar lógica de descarga)</button>
+                            <button id="btn-generate-certificate-end" class="btn btn-success">Generar certificado</button>
                             <button class="btn btn-secondary prev-lesson" data-prev="quiz-module" data-index="11">Anterior</button>
                         `
           )
@@ -430,7 +437,9 @@ $(document).ready(function () {
                                 ? "bg-success text-white"
                                 : "bg-danger text-white"
                             }">
-                                <span class="question-number-review ${isCorrect ? 'bg-success' : 'bg-danger'}">${i}</span> ${questionText}
+                                <span class="question-number-review ${
+                                  isCorrect ? "bg-success" : "bg-danger"
+                                }">${i}</span> ${questionText}
                             </div>
                             <div class="card-body">
                                 <p><strong>Tu respuesta:</strong> ${selectedAnswerText}</p>
@@ -456,6 +465,11 @@ $(document).ready(function () {
     // Ocultar formulario y mostrar resultados
     $(".question-cards").hide();
     $("#submit-quiz").hide();
+
+    // Ocultar encabezado y barra de progreso del quiz
+    $(".quiz-title").hide();
+    $(".quiz-card .progress").hide();
+
     $("#results").show();
 
     saveProgress();
@@ -466,6 +480,10 @@ $(document).ready(function () {
   $("#retry-quiz").on("click", function () {
     // Restablecer formulario
     $("#quiz-form")[0].reset();
+
+    // Mostrar encabezado y barra de progreso del quiz
+    $(".quiz-title").show();
+    $(".quiz-card .progress").show();
 
     // Mostrar preguntas y ocultar resultados
     $(".question-cards").show();
@@ -554,6 +572,30 @@ $(document).ready(function () {
     "disabled",
     !(quizPassed && fullName && identification)
   );
+
+  // Función para validar y redirigir al certificado
+  function openCertificate() {
+    const savedQuizPassed = localStorage.getItem("quizPassed");
+    const savedFullName = localStorage.getItem("fullName");
+
+    if (savedQuizPassed && savedFullName) {
+      window.open("certificate.html", "_blank");
+    } else {
+      Swal.fire({
+        title: "Datos incompletos",
+        text: "Por favor, completa todos los campos.",
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      });
+    }
+  }
+
+  // Asignar eventos a los botones que generan el certificado
+  $("#show-certificate-button").on("click", openCertificate);
+  $("#continue-course").on("click", openCertificate);
+  $("#btn-generate-certificate-end").on("click", function () {
+    openCertificate();
+  });
 });
 
 // Inicializar tooltips de Bootstrap

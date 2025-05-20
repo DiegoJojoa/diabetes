@@ -278,12 +278,12 @@ $(document).ready(function () {
     showLesson(parseInt(indexToShow));
   });
 
-  $(".content").on("click", ".next-lesson", function () {
+  $(".content-lessons").on("click", ".next-lesson", function () {
     const currentIndex = parseInt($(this).data("index"));
     showLesson(currentIndex + 1);
   });
 
-  $(".content").on("click", ".prev-lesson", function () {
+  $(".content-lessons").on("click", ".prev-lesson", function () {
     const currentIndex = parseInt($(this).data("index"));
     showLesson(currentIndex - 1);
   });

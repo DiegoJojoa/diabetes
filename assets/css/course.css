@@ -32,7 +32,7 @@
     overflow-y: auto;
 } */
 
-.content {
+.content-lessons {
     width: calc(100% - 300px);
     /* flex-grow: 1; */
     padding: 1rem;
@@ -75,9 +75,9 @@
         padding: 1rem;
     }
 
-    body {
+    /* body {
         margin-left: 0 !important;
-    }
+    } */
 
     .sidebar.active {
         display: block;
@@ -94,7 +94,7 @@
         display: block;
     }
 
-    .content {
+    .content-lessons {
         /* En pantallas pequeñas, el ancho calculado ya no es necesario */
         width: 100%;
         padding-top: 60px;
@@ -113,7 +113,7 @@ body.sidebar-open {
 } */
 
 @media (max-width: 767.98px) {
-    .content {
+    .content-lessons {
         margin-left: 0 !important;
         padding-top: 60px;
     }

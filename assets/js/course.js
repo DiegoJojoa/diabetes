@@ -21,10 +21,9 @@ $(document).ready(function () {
   const submitQuizButton = $("#submit-quiz");
   const questionCards = $(".question-card");
   const resultsDiv = $("#results");
-  const userDataModal = $("#userDataModal");
-  const userDataForm = $("#userDataForm");
+  // const userDataModal = $("#userDataModal");
+  // const userDataForm = $("#userDataForm");
   let fullName = localStorage.getItem("fullName") || "";
-  let identification = localStorage.getItem("identification") || "";
   let currentLessonIndex = 0;
   const totalLessons = lessons.length;
   let lessonCompletion = localStorage.getItem("lessonCompletion")
@@ -145,23 +144,8 @@ $(document).ready(function () {
         300
       );
     } else if (index > totalLessons) {
-      if (quizPassed && fullName && identification) {
-        certificateModule
-          .html(
-            `
-                            <h2>Certificado de Finalización</h2>
-                            <p><strong>Nombre Completo:</strong> ${fullName}</p>
-                            <p><strong>Número de Identificación:</strong> ${identification}</p>
-                            <p>¡Felicidades! Has completado el curso.</p>
-                            <button id="btn-generate-certificate-end" class="btn btn-success">Generar certificado</button>
-                            <button class="btn btn-secondary prev-lesson" data-prev="quiz-module" data-index="11">Anterior</button>
-                        `
-          )
-          .addClass("active")
-          .show();
-      } else if (!fullName || !identification) {
-        userDataModal.modal("show");
-        return false;
+      if (quizPassed) {
+        certificateModule.addClass("active").show();
       } else if (!quizPassed) {
         Swal.fire({
           title: "No has aprobado el cuestionario",
@@ -188,10 +172,7 @@ $(document).ready(function () {
       }
     });
 
-    showCertificateButton.prop(
-      "disabled",
-      !(quizPassed && fullName && identification)
-    );
+    showCertificateButton.prop("disabled", !(quizPassed && fullName));
     return true;
   }
 
@@ -250,10 +231,7 @@ $(document).ready(function () {
     } else {
       showLesson(0);
     }
-    showCertificateButton.prop(
-      "disabled",
-      !(quizPassed && fullName && identification)
-    );
+    showCertificateButton.prop("disabled", !(quizPassed && fullName));
   }
 
   resetButton.on("click", function () {
@@ -500,7 +478,7 @@ $(document).ready(function () {
 
   // Continuar con el curso
   $("#continue-course").on("click", function () {
-    // Aquí puedes agregar la funcionalidad para continuar con la siguiente lección
+    debugger;
     if (
       typeof showLesson === "function" &&
       typeof totalLessons !== "undefined"
@@ -510,7 +488,7 @@ $(document).ready(function () {
       Swal.fire({
         title: "¡Felicidades!",
         text: "Felicidades por completar el cuestionario! Continuemos con la siguiente parte del curso.",
-        icon: "success", // Iconos: success, error, warning, info, question
+        icon: "success",
         confirmButtonText: "¡Entendido!",
       });
     }
@@ -520,7 +498,6 @@ $(document).ready(function () {
     const radioInput = $(this).find('input[type="radio"]');
     radioInput.prop("checked", true);
 
-    // Desmarcar otros checks en el mismo grupo de preguntas
     const questionCard = $(this).closest(".question-card");
     questionCard.find(".form-check").removeClass("active");
     $(this).addClass("active");
@@ -530,9 +507,7 @@ $(document).ready(function () {
   });
 
   showCertificateButton.on("click", function () {
-    if (!fullName || !identification) {
-      userDataModal.modal("show");
-    } else if (!quizPassed) {
+    if (!quizPassed) {
       Swal.fire({
         title: "No has aprobado el cuestionario",
         text: "Debes aprobar el cuestionario para generar el certificado.",
@@ -545,33 +520,57 @@ $(document).ready(function () {
     }
   });
 
-  userDataForm.on("submit", function (event) {
-    event.preventDefault();
-    const name = $("#fullName").val();
-    const id = $("#identification").val();
-    if (name && id) {
-      fullName = name;
-      identification = id;
-      saveProgress();
-      userDataModal.modal("hide");
-      if (quizPassed) {
-        showLesson(totalLessons + 1);
-      }
-    } else {
-      Swal.fire({
-        title: "Datos incompletos",
-        text: "Por favor, completa todos los campos.",
-        icon: "warning",
-        confirmButtonText: "Aceptar",
-      });
-    }
-  });
+  // userDataForm.on("submit", function (event) {
+  //   event.preventDefault();
+  //   const name = $("#fullName").val();
+  //   if (name) {
+  //     fullName = name;
+  //     saveProgress();
+  //     userDataModal.modal("hide");
+  //     if (quizPassed) {
+  //       showLesson(totalLessons + 1);
+  //     }
+  //   } else {
+  //     console.log("Nombre no válido");
+  //   }
+  // });
 
   loadProgress();
-  showCertificateButton.prop(
-    "disabled",
-    !(quizPassed && fullName && identification)
-  );
+  showCertificateButton.prop("disabled", !(quizPassed && fullName));
+
+  $("#generate-certificate-button").click(function (e) {
+    e.preventDefault();
+
+    console.log("Generar certificado");
+
+    const name = $("#fullName").val().trim();
+    const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+    const errorContainer = $("#nameError");
+
+    // Limpiar mensajes previos
+    errorContainer.hide().text("");
+    $("#fullName").removeClass("is-invalid");
+
+    if (!name) {
+      errorContainer.text('El campo "Nombre Completo" es obligatorio.').show();
+      $("#fullName").addClass("is-invalid");
+      return;
+    }
+
+    if (!nameRegex.test(name)) {
+      errorContainer
+        .text("El nombre solo debe contener letras y espacios.")
+        .show();
+      $("#fullName").addClass("is-invalid");
+      return;
+    }
+
+    // Guardar en localStorage
+    localStorage.setItem("fullName", name);
+
+    // Redireccionar
+    window.open("certificate.html", "_blank");
+  });
 
   // Función para validar y redirigir al certificado
   function openCertificate() {
@@ -592,10 +591,10 @@ $(document).ready(function () {
 
   // Asignar eventos a los botones que generan el certificado
   $("#show-certificate-button").on("click", openCertificate);
-  $("#continue-course").on("click", openCertificate);
-  $("#btn-generate-certificate-end").on("click", function () {
-    openCertificate();
-  });
+  // $("#continue-course").on("click", openCertificate);
+  // $("#btn-generate-certificate-end").on("click", function () {
+  //   openCertificate();
+  // });
 });
 
 // Inicializar tooltips de Bootstrap

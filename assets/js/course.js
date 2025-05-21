@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
 $(document).ready(function () {
   const lessonMenu = $("#lesson-menu");
   const lessons = $(".lesson:not(#quiz-module, #certificate-module)");
@@ -588,6 +589,22 @@ $(document).ready(function () {
       });
     }
   }
+
+  // youtube
+  $(".video-wrapper").on("click", function () {
+    const videoId = $(this).data("id");
+    const iframe = $("<iframe>", {
+      src: "https://www.youtube.com/embed/" + videoId + "?autoplay=1",
+      allow:
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+      allowfullscreen: true,
+      referrerpolicy: "strict-origin-when-cross-origin",
+      frameborder: 0,
+      style:
+        "position:absolute;top:0;left:0;width:100%;height:100%;border-radius:0.5rem;",
+    });
+    $(this).empty().append(iframe);
+  });
 
   // Asignar eventos a los botones que generan el certificado
   $("#show-certificate-button").on("click", openCertificate);

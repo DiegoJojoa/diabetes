@@ -589,7 +589,6 @@ $(document).ready(function () {
 
   // youtube
   // Manejar clic en el wrapper del video
-  // Manejar clic en el wrapper del video
   $(".video-wrapper").on("click", function (e) {
     e.preventDefault();
 
@@ -667,6 +666,24 @@ $(document).ready(function () {
   // $("#btn-generate-certificate-end").on("click", function () {
   //   openCertificate();
   // });
+});
+
+// Función para reproducir video introductorio
+function playIntroVideo() {
+  const $iframe = $("#introVideo");
+
+  // Construir URL con parámetros para mejor experiencia
+  const videoUrl = `https://www.youtube.com/embed/0ShiHnTn9KM?autoplay=1&rel=0&modestbranding=1&showinfo=0`;
+
+  $iframe.attr("src", videoUrl);
+}
+
+const $modal = $("#introVideoModal");
+const $iframe = $("#introVideo");
+
+// Elimina el video del iframe al cerrar el modal
+$modal.on("hidden.bs.modal", function () {
+  $iframe.attr("src", ""); // Detiene el video
 });
 
 // Inicializar tooltips de Bootstrap

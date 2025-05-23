@@ -127,7 +127,6 @@ $(document).ready(function () {
   }
 
   function showLesson(index) {
-    debugger;
     lessons.removeClass("active").hide();
     quizModule.removeClass("active").hide();
     certificateModule.removeClass("active").hide();
@@ -195,20 +194,20 @@ $(document).ready(function () {
     localStorage.setItem("lessonCompletion", JSON.stringify(lessonCompletion));
     localStorage.setItem("quizPassed", quizPassed);
     localStorage.setItem("fullName", fullName);
-    localStorage.setItem("identification", identification);
+    // localStorage.setItem("identification", identification);
   }
 
   function loadProgress() {
     const savedCompletion = localStorage.getItem("lessonCompletion");
     const savedQuizPassed = localStorage.getItem("quizPassed");
     const savedFullName = localStorage.getItem("fullName");
-    const savedIdentification = localStorage.getItem("identification");
+    // const savedIdentification = localStorage.getItem("identification");
 
     if (savedCompletion) {
       lessonCompletion = JSON.parse(savedCompletion);
       updateProgressBar();
       fullName = savedFullName || "";
-      identification = savedIdentification || "";
+      // identification = savedIdentification || "";
       quizPassed = savedQuizPassed === "true";
 
       let lastIndex = lessonCompletion.lastIndexOf(true);
@@ -240,9 +239,9 @@ $(document).ready(function () {
     localStorage.removeItem("lessonCompletion");
     localStorage.removeItem("quizPassed");
     localStorage.removeItem("fullName");
-    localStorage.removeItem("identification");
+    // localStorage.removeItem("identification");
     fullName = "";
-    identification = "";
+    // identification = "";
     lessonCompletion = Array(totalLessons).fill(false);
     quizPassed = false;
     updateProgressBar();
@@ -328,7 +327,6 @@ $(document).ready(function () {
     $("#score-display").text(`${score}/10`);
     $("#score-bar").css("width", `${percentage}%`);
     $("#score-bar").text(`${percentage}%`);
-    debugger;
 
     // Determinar si pasó el cuestionario (70% o más)
     if (percentage >= 70) {
@@ -479,7 +477,6 @@ $(document).ready(function () {
 
   // Continuar con el curso
   $("#continue-course").on("click", function () {
-    debugger;
     if (
       typeof showLesson === "function" &&
       typeof totalLessons !== "undefined"
@@ -591,19 +588,77 @@ $(document).ready(function () {
   }
 
   // youtube
-  $(".video-wrapper").on("click", function () {
-    const videoId = $(this).data("id");
+  // Manejar clic en el wrapper del video
+  // Manejar clic en el wrapper del video
+  $(".video-wrapper").on("click", function (e) {
+    e.preventDefault();
+
+    const $wrapper = $(this);
+    const videoId = $wrapper.data("id");
+
+    // Validar que existe el ID del video
+    if (!videoId) {
+      console.error("No se encontró ID del video");
+      return;
+    }
+
+    // Evitar múltiples clics
+    if ($wrapper.hasClass("loading") || $wrapper.find("iframe").length > 0) {
+      return;
+    }
+
+    // Añadir clase de carga
+    $wrapper.addClass("loading");
+
+    // Crear el iframe
     const iframe = $("<iframe>", {
-      src: "https://www.youtube.com/embed/" + videoId + "?autoplay=1",
+      src: `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`,
       allow:
         "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
       allowfullscreen: true,
-      referrerpolicy: "strict-origin-when-cross-origin",
       frameborder: 0,
-      style:
-        "position:absolute;top:0;left:0;width:100%;height:100%;border-radius:0.5rem;",
+      loading: "lazy",
     });
-    $(this).empty().append(iframe);
+
+    // Añadir estilos CSS directamente al iframe
+    iframe.css({
+      position: "absolute",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100%",
+      border: "none",
+      "border-radius": "0.5rem",
+    });
+
+    // Manejar la carga del iframe
+    iframe.on("load", function () {
+      $wrapper.removeClass("loading");
+      $wrapper.addClass("video-loaded"); // Añadir clase para ocultar botón
+    });
+
+    // Manejar errores de carga
+    iframe.on("error", function () {
+      $wrapper.removeClass("loading");
+      console.error("Error al cargar el video");
+      alert("Error al cargar el video. Por favor, inténtalo de nuevo.");
+    });
+
+    // Limpiar el contenido actual y añadir el iframe
+    $wrapper.empty().append(iframe);
+
+    // Remover los pseudo-elementos usando CSS
+    $wrapper.css({
+      cursor: "default",
+    });
+  });
+
+  // Manejar errores de imagen
+  $(".video-wrapper img").on("error", function () {
+    $(this).attr(
+      "src",
+      "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIwIiBoZWlnaHQ9IjQwNSIgdmlld0JveD0iMCAwIDcyMCA0MDUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI3MjAiIGhlaWdodD0iNDA1IiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjM2MCIgeT0iMjAyLjUiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkVycm9yIGFsIGNhcmdhciBpbWFnZW48L3RleHQ+Cjwvc3ZnPg=="
+    );
   });
 
   // Asignar eventos a los botones que generan el certificado

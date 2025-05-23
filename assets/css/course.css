@@ -320,6 +320,31 @@ body.sidebar-open {
     margin-top: 0.25rem;
 }
 
+
+/* .lesson {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+} */
+
+.lesson-title {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+.lesson p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    text-align: justify;
+}
+
 .video-wrapper {
     width: 100%;
     max-width: 720px;
@@ -327,7 +352,161 @@ body.sidebar-open {
     background-color: #000;
     position: relative;
     margin: 0 auto 1.5rem auto;
-    /* centrado + espaciado */
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-wrapper:hover {
+    transform: scale(1.02);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.25);
+}
+
+.video-wrapper img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-wrapper:hover img {
+    opacity: 0.8;
+}
+
+/* Overlay oscuro para mejorar la visibilidad del botón */
+.video-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+            rgba(0, 0, 0, 0.3) 0%,
+            rgba(0, 0, 0, 0.1) 50%,
+            rgba(0, 0, 0, 0.3) 100%);
+    z-index: 1;
+    transition: opacity 0.3s ease;
+}
+
+.video-wrapper:hover::before {
+    opacity: 0.7;
+}
+
+/* Botón de play como elemento real en lugar de pseudo-elemento */
+.video-wrapper .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-wrapper:hover .play-button {
+    background: rgba(255, 255, 255, 1);
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Ícono de play dentro del círculo */
+.video-wrapper .play-icon {
+    width: 0;
+    height: 0;
+    border-left: 20px solid #dc3545;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    margin-left: 4px;
+    transition: all 0.3s ease;
+}
+
+.video-wrapper:hover .play-icon {
+    border-left-color: #b02a37;
+    transform: scale(1.1);
+}
+
+/* Ocultar botón cuando hay video cargado */
+.video-wrapper.video-loaded .play-button,
+.video-wrapper.video-loaded::before {
+    display: none !important;
+}
+
+/* Estilos para el iframe */
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+/* Estado de carga */
+.video-wrapper.loading {
+    background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    100% {
+        background-position: 20px 20px, 20px 30px, 30px 10px, 10px 20px;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .lesson {
+        padding: 1rem;
+        margin: 10px;
+    }
+
+    .lesson-title {
+        font-size: 1.5rem;
+    }
+
+    .video-wrapper .play-button {
+        width: 60px;
+        height: 60px;
+    }
+
+    .video-wrapper .play-icon {
+        border-left: 15px solid #dc3545;
+        border-top: 9px solid transparent;
+        border-bottom: 9px solid transparent;
+        margin-left: 3px;
+    }
+}
+
+/* .video-wrapper {
+    width: 100%;
+    max-width: 720px;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    position: relative;
+    margin: 0 auto 1.5rem auto;
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
@@ -354,4 +533,4 @@ body.sidebar-open {
     height: 48px;
     transform: translate(-50%, -50%);
     z-index: 1;
-}
+} */

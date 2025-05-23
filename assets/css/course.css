@@ -270,6 +270,11 @@ body.sidebar-open {
     margin-bottom: 2rem;
 }
 
+.quiz-title h1,
+.quiz-title p {
+  color: white !important;
+}
+
 .results-container {
     display: none;
     padding: 2rem;
@@ -405,7 +410,8 @@ body.sidebar-open {
     left: 50%;
     width: 80px;
     height: 80px;
-    background: rgba(255, 255, 255, 0.95);
+    background: #1979ccd8;
+    color: #ffffff;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
@@ -417,7 +423,7 @@ body.sidebar-open {
 }
 
 .video-wrapper:hover .play-button {
-    background: rgba(255, 255, 255, 1);
+    background: #1977cc;
     transform: translate(-50%, -50%) scale(1.1);
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
 }

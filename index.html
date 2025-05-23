@@ -796,20 +796,14 @@
     </section><!-- /Faq Section -->
 
     <!-- Test Pre-Diabetes Section -->
-    <section id="test" class="faq section light-background">
-
-      <div class="container mt-5">
+    <section id="test" class="section light-background">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Test de riesgo</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+      <div class="container">
         <div class="quiz-wrapper">
-          <!-- <div id="question-1" class="question-panel start-panel bg-light p-4 rounded shadow active">
-                <h2>Test de Riesgo de Diabetes Tipo 2</h2>
-                <p>La prueba tarda un par de minutos en completarse. Es una forma rápida, fácil y confidencial de
-                    conocer su riesgo de desarrollar diabetes tipo 2.</p>
-                <div class="quiz-nav">
-                    <button class="btn btn-primary next">Comenzar</button>
-                </div>
-                <p class="mt-3">La prueba se encuentra también disponible en los idiomas siguientes:</p>
-            </div> -->
-
           <div id="question-1" class="question-panel start-panel bg-light p-4 rounded shadow active">
             <div class="row align-items-center">
               <div class="col-md-6">
@@ -832,8 +826,10 @@
           </div>
 
           <div id="question-2" class="question-panel one bg-light p-4 rounded shadow">
+            <div class="question-header">
+              <h3><span class="number">1.</span> Edad</h3>
+            </div>
 
-            <h3><span class="number">1.</span> Edad</h3>
             <ul id="option-group-2" class="option-group list-unstyled">
               <li class="progress-message">Por favor seleccione una respuesta</li>
               <li class="survey-option">
@@ -869,8 +865,11 @@
           </div>
 
           <div id="question-3" class="question-panel two bg-light p-4 rounded shadow">
-            <h3><span class="number">2.</span> Índice de masa corporal</h3>
-            <h4>Calculadora índice de masa corporal</h4>
+            <div class="question-header">
+              <h3><span class="number">2.</span> Índice de masa corporal</h3>
+              <h4>Calculadora índice de masa corporal</h4>
+            </div>
+
             <div class="calculator-element">
               <label for="height">Mi altura es (cm)</label>
               <input type="number" class="form-control calc-field" id="height" name="height" autocomplete="off" min="1"
@@ -910,63 +909,12 @@
             </div>
           </div>
 
-          <!-- <div id="question-4" class="question-panel three bg-light p-4 rounded shadow">
-                <h3><span class="number">3</span> Perímetro de cintura <br><small>(medido por debajo las costillas,
-                        normalmente a nivel del ombligo)</small></h3>
-                <ul id="option-group-4" class="option-group list-unstyled">
-                    <li>
-                        <h4>Hombres</h4>
-                    </li>
-                    <li class="survey-option">
-                        <label>
-                            <input type="radio" name="waist_men" value="Less than 94 cm" data-score="0">
-                            Menos de 94 cm
-                        </label>
-                    </li>
-                    <li class="survey-option">
-                        <label>
-                            <input type="radio" name="waist_men" value="94-102 cm" data-score="3">
-                            Entre 94-102 cm
-                        </label>
-                    </li>
-                    <li class="survey-option">
-                        <label>
-                            <input type="radio" name="waist_men" value="More than 102 cm" data-score="4">
-                            Más de 102 cm
-                        </label>
-                    </li>
-                    <li class="mt-3">
-                        <h4>Mujeres</h4>
-                    </li>
-                    <li class="survey-option">
-                        <label>
-                            <input type="radio" name="waist_women" value="Less than 80 cm" data-score="0">
-                            Menos de 80 cm
-                        </label>
-                    </li>
-                    <li class="survey-option">
-                        <label>
-                            <input type="radio" name="waist_women" value="80-88 cm" data-score="3">
-                            Entre 80-88 cm
-                        </label>
-                    </li>
-                    <li class="survey-option">
-                        <label>
-                            <input type="radio" name="waist_women" value="More than 88 cm" data-score="4">
-                            Más de 88 cm
-                        </label>
-                    </li>
-                </ul>
-                <div class="quiz-nav mt-3">
-                    <button class="btn btn-secondary prev">Anterior</button>
-                    <span class="ml-2 mr-2">Pregunta 3 de 8</span>
-                    <button class="btn btn-primary next" disabled>Siguiente</button>
-                </div>
-            </div> -->
-
           <div id="question-4" class="question-panel three bg-light p-4 rounded shadow">
-            <h3><span class="number">3.</span> Perímetro de cintura <br><small>(medido por debajo las costillas,
-                normalmente a nivel del ombligo)</small></h3>
+            <div class="question-header">
+              <h3><span class="number">3.</span> Perímetro de cintura <br><small>(medido por debajo las costillas,
+                  normalmente a nivel del ombligo)</small></h3>
+            </div>
+
             <ul id="option-group-4" class="option-group list-unstyled">
               <li>
                 <h4>Hombres</h4>
@@ -1019,8 +967,11 @@
           </div>
 
           <div id="question-5" class="question-panel four bg-light p-4 rounded shadow">
-            <h3><span class="number">4.</span> ¿Realiza habitualmente al menos 30 minutos de actividad física, en el
-              trabajo y/o en el tiempo libre?</h3>
+            <div class="question-header">
+              <h3><span class="number">4.</span> ¿Realiza habitualmente al menos 30 minutos de actividad física, en el
+                trabajo y/o en el tiempo libre?</h3>
+            </div>
+
             <ul id="option-group-5" class="option-group list-unstyled">
               <li class="survey-option">
                 <label>
@@ -1043,7 +994,10 @@
           </div>
 
           <div id="question-6" class="question-panel five bg-light p-4 rounded shadow">
-            <h3><span class="number">5.</span> ¿Con qué frecuencia come verduras o fruta?</h3>
+            <div class="question-header">
+              <h3><span class="number">5.</span> ¿Con qué frecuencia come verduras o fruta?</h3>
+            </div>
+
             <ul id="option-group-6" class="option-group list-unstyled">
               <li class="survey-option">
                 <label>
@@ -1066,7 +1020,10 @@
           </div>
 
           <div id="question-7" class="question-panel six bg-light p-4 rounded shadow">
-            <h3><span class="number">6.</span> ¿Toma medicación para la presión regularmente?</h3>
+            <div class="question-header">
+              <h3><span class="number">6.</span> ¿Toma medicación para la presión regularmente?</h3>
+            </div>
+
             <ul id="option-group-7" class="option-group list-unstyled">
               <li class="survey-option">
                 <label>
@@ -1089,9 +1046,12 @@
           </div>
 
           <div id="question-8" class="question-panel seven bg-light p-4 rounded shadow">
-            <h3><span class="number">7.</span> ¿Le han encontrado alguna vez valores de glucosa (azúcar) altos?
-              <small>(p.e. en un control médico, durante una enfermedad, durante el embarazo)</small>
-            </h3>
+            <div class="question-header">
+              <h3><span class="number">7.</span> ¿Le han encontrado alguna vez valores de glucosa (azúcar) altos?
+                <small>(p.e. en un control médico, durante una enfermedad, durante el embarazo)</small>
+              </h3>
+            </div>
+
             <ul id="option-group-8" class="option-group list-unstyled">
               <li class="survey-option">
                 <label>
@@ -1114,8 +1074,11 @@
           </div>
 
           <div id="question-9" class="question-panel eight bg-light p-4 rounded shadow">
-            <h3><span class="number">8.</span> ¿Alguno de sus familiares allegados u otros parientes ha sido
-              diagnosticado con diabetes? <small>(tipo 1 o tipo 2)</small></h3>
+            <div class="question-header">
+              <h3><span class="number">8.</span> ¿Alguno de sus familiares allegados u otros parientes ha sido
+                diagnosticado con diabetes? <small>(tipo 1 o tipo 2)</small></h3>
+            </div>
+
             <ul id="option-group-9" class="option-group list-unstyled">
               <li class="survey-option">
                 <label>
@@ -1147,7 +1110,7 @@
           <div id="question-10" class="question-panel results-panel bg-light p-4 rounded shadow">
             <h2>Resultados del Test</h2>
             <div class="my-result result-low active">
-              <h4 class="result-heading"><span class="live-score">0</span> - Bajo riesgo</h4>
+              <h4 class="result-heading"><span class="live-score"></span> - Bajo riesgo</h4>
               <p>Se estima que 1 de cada 100 personas con esta puntuación desarrollará la enfermedad.</p>
               <p>Mantener un estilo de vida saludable es clave. Siga hábitos alimenticios equilibrados y realice
                 actividad física regularmente.</p>
@@ -1183,9 +1146,9 @@
               <button class="btn btn-outline-secondary ml-2" onclick="window.print()">Imprimir el
                 resultado</button>
             </div>
-            <div class="mt-3">
+            <!-- <div class="mt-3">
               <h5>Compartir test</h5>
-            </div>
+            </div> -->
           </div>
 
         </div>

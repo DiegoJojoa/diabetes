@@ -1,184 +1,207 @@
 $(document).ready(function () {
-  // Ocultar todos los paneles de preguntas excepto el primero
-  $(".question-panel").not(".start-panel").hide();
-  $(".start-panel").addClass("active");
-
-  let currentQuestion = 1;
+  let currentQuestion = 2; // Empezar en pregunta 2 (la primera pregunta del modal)
   let totalScore = 0;
-  const totalQuestions = $(
-    ".question-panel:not(.start-panel, .results-panel)"
-  ).length;
+  const totalQuestions = 8; // Total de preguntas en el quiz
 
-  // Función para mostrar el panel de pregunta actual y ocultar los demás
+  // Función para mostrar el panel de pregunta actual y ocultar los demás dentro del modal
   function showQuestion(questionNumber) {
-    $(".question-panel").removeClass("active").hide();
-    $("#question-" + questionNumber)
+    $("#testPrediabetesModal .question-panel").removeClass("active").hide();
+    $("#testPrediabetesModal #question-" + questionNumber)
       .addClass("active")
       .show();
 
-    // // Scroll mejorado
-    // if (questionNumber >= 3 && questionNumber <= totalQuestions + 1) {
-    //   const currentPanel = $("#question-" + questionNumber);
-    //   const title = currentPanel.find("h3").first();
-    //   if (title.length) {
-    //     // Ajuste responsive
-    //     const isMobile = window.innerWidth <= 768;
-    //     const offset = title.offset().top - (isMobile ? 50 : 100);
-
-    //     $("html, body").animate({ scrollTop: offset }, 600);
-    //   }
-    // }
-
-    // // Actualizar la visualización del número de pregunta
-    // if (questionNumber > 1 && questionNumber <= totalQuestions + 1) {
-    //   $(".quiz-nav span").text(
-    //     `Pregunta ${questionNumber - 1} de ${totalQuestions}`
-    //   );
-    // }
-
-    // Deshabilitar el botón "Siguiente" al cargar una nueva pregunta (excepto en el panel de inicio)
-    if (questionNumber !== 1 && questionNumber <= totalQuestions + 1) {
-      const nextButton = $("#question-" + questionNumber + " .next");
+    // Deshabilitar el botón "Siguiente" al cargar una nueva pregunta
+    if (questionNumber >= 2 && questionNumber <= 9) {
+      const nextButton = $(
+        "#testPrediabetesModal #question-" + questionNumber + " .next"
+      );
       const radioButtons = $(
-        "#question-" + questionNumber + ' input[type="radio"]'
+        "#testPrediabetesModal #question-" +
+          questionNumber +
+          ' input[type="radio"]'
       );
       nextButton.prop("disabled", !radioButtons.is(":checked"));
-    } else if (questionNumber === totalQuestions + 2) {
-      $(".quiz-nav span").text(`Resultados`); // En el panel de resultados
     }
-    // Ocultar/mostrar botones "Anterior"
-    $(".question-panel:not(.start-panel) .prev").show();
+
+    // Mostrar/ocultar botones "Anterior" apropiadamente
+    if (questionNumber === 2) {
+      $("#testPrediabetesModal #question-" + questionNumber + " .prev").hide();
+    } else {
+      $("#testPrediabetesModal #question-" + questionNumber + " .prev").show();
+    }
   }
 
-  // Habilitar el botón "Siguiente" cuando se selecciona una opción (en los paneles de preguntas)
-  $(
-    '.question-panel:not(.start-panel, .results-panel) .option-group input[type="radio"]'
-  ).change(function () {
-    $(this).closest(".question-panel").find(".next").prop("disabled", false);
-    $(this).closest(".question-panel").find(".progress-message").hide();
-  });
+  // Cuando se abre el modal, mostrar la primera pregunta
+  $("#testPrediabetesModal").on("show.bs.modal", function () {
+    // Resetear el quiz
+    currentQuestion = 2;
+    totalScore = 0;
+    $('#testPrediabetesModal .option-group input[type="radio"]').prop(
+      "checked",
+      false
+    );
+    $("#testPrediabetesModal #question-3 .bmi-result").text("");
+    $('#testPrediabetesModal #question-3 input[name="bmi"]').prop(
+      "checked",
+      false
+    );
 
-  // Evento para el botón "Comenzar"
-  $(".start-panel .next").click(function () {
-    // const myModal = new bootstrap.Modal(
-    //   document.getElementById("testPrediabetesModal")
-    // );
-    // myModal.show();
-
-    currentQuestion++;
+    // Mostrar la primera pregunta
     showQuestion(currentQuestion);
   });
 
-  // Evento para el botón "Siguiente" (SOLO para preguntas normales, NO para finalizar)
-  $(
-    ".question-panel:not(.start-panel, .results-panel) .next:not(#submit-button)"
-  ).click(function () {
-    const currentPanelId = $(this).closest(".question-panel").attr("id");
-    const selectedOption = $(
-      "#" + currentPanelId + ' input[type="radio"]:checked'
-    );
+  // Habilitar el botón "Siguiente" cuando se selecciona una opción
+  $(document).on(
+    "change",
+    '#testPrediabetesModal .question-panel .option-group input[type="radio"]',
+    function () {
+      $(this).closest(".question-panel").find(".next").prop("disabled", false);
+      $(this).closest(".question-panel").find(".progress-message").hide();
+    }
+  );
 
-    if (selectedOption.length > 0) {
-      let score = 0;
-      if (currentPanelId === "question-4") {
-        // Pregunta del perímetro de cintura
-        if (selectedOption.data("score-men") !== undefined) {
-          score = parseInt(selectedOption.data("score-men"));
-        } else if (selectedOption.data("score-women") !== undefined) {
-          score = parseInt(selectedOption.data("score-women"));
+  // Evento para el botón "Siguiente" (preguntas normales)
+  $(document).on(
+    "click",
+    "#testPrediabetesModal .question-panel .next:not(#submit-button)",
+    function () {
+      const currentPanelId = $(this).closest(".question-panel").attr("id");
+      const selectedOption = $(
+        "#testPrediabetesModal #" +
+          currentPanelId +
+          ' input[type="radio"]:checked'
+      );
+
+      if (selectedOption.length > 0) {
+        let score = 0;
+        if (currentPanelId === "question-4") {
+          // Pregunta del perímetro de cintura
+          if (selectedOption.data("score-men") !== undefined) {
+            score = parseInt(selectedOption.data("score-men"));
+          } else if (selectedOption.data("score-women") !== undefined) {
+            score = parseInt(selectedOption.data("score-women"));
+          }
+        } else {
+          score = parseInt(selectedOption.data("score"));
+        }
+        totalScore += score;
+        currentQuestion++;
+
+        // Verificar si es la última pregunta antes de mostrar resultados
+        if (currentQuestion <= 9) {
+          showQuestion(currentQuestion);
         }
       } else {
-        score = parseInt(selectedOption.data("score"));
+        $(this).closest(".question-panel").find(".progress-message").show();
+        setTimeout(() => {
+          $(this)
+            .closest(".question-panel")
+            .find(".progress-message")
+            .fadeOut();
+        }, 2000);
       }
-      totalScore += score;
-      currentQuestion++;
-
-      // Verificar si es la última pregunta antes de mostrar resultados
-      if (currentQuestion <= totalQuestions + 1) {
-        showQuestion(currentQuestion);
-      } else {
-        showResults();
-      }
-    } else {
-      $(this).closest(".question-panel").find(".progress-message").show();
-      setTimeout(() => {
-        $(this).closest(".question-panel").find(".progress-message").fadeOut();
-      }, 2000);
     }
-  });
+  );
 
   // Evento para el botón "Anterior"
-  $(".question-panel:not(.start-panel, .results-panel) .prev").click(
+  $(document).on(
+    "click",
+    "#testPrediabetesModal .question-panel .prev",
     function () {
+      // Restar la puntuación de la pregunta actual antes de ir atrás
+      const currentPanelId = $(this).closest(".question-panel").attr("id");
+      const selectedOption = $(
+        "#testPrediabetesModal #" +
+          currentPanelId +
+          ' input[type="radio"]:checked'
+      );
+
+      if (selectedOption.length > 0) {
+        let score = 0;
+        if (currentPanelId === "question-4") {
+          if (selectedOption.data("score-men") !== undefined) {
+            score = parseInt(selectedOption.data("score-men"));
+          } else if (selectedOption.data("score-women") !== undefined) {
+            score = parseInt(selectedOption.data("score-women"));
+          }
+        } else {
+          score = parseInt(selectedOption.data("score"));
+        }
+        totalScore -= score;
+      }
+
       currentQuestion--;
       showQuestion(currentQuestion);
     }
   );
 
   // Calcular IMC y habilitar la opción correspondiente
-  $("#question-3 .calc-field").on("input", function () {
-    const height = parseFloat($("#height").val()) / 100; // Convertir cm a metros
-    const weight = parseFloat($("#weight").val());
-    const bmiResult = $("#question-3 .bmi-result");
+  $(document).on(
+    "input",
+    "#testPrediabetesModal #question-3 .calc-field",
+    function () {
+      const height = parseFloat($("#testPrediabetesModal #height").val()) / 100;
+      const weight = parseFloat($("#testPrediabetesModal #weight").val());
+      const bmiResult = $("#testPrediabetesModal #question-3 .bmi-result");
 
-    if (height > 0 && weight > 0) {
-      const bmi = weight / (height * height);
-      bmiResult.text(bmi.toFixed(2) + " Kg/m2");
+      if (height > 0 && weight > 0) {
+        const bmi = weight / (height * height);
+        bmiResult.text(bmi.toFixed(2) + " Kg/m²");
 
-      $('#question-3 input[name="bmi"]').prop("checked", false); // Desmarcar todas las opciones de IMC
-      $("#question-3 .next").prop("disabled", true);
+        $('#testPrediabetesModal #question-3 input[name="bmi"]').prop(
+          "checked",
+          false
+        );
+        $("#testPrediabetesModal #question-3 .next").prop("disabled", true);
 
-      if (bmi < 25) {
-        $('#question-3 input[name="bmi"][data-score="0"]').prop(
+        if (bmi < 25) {
+          $(
+            '#testPrediabetesModal #question-3 input[name="bmi"][data-score="0"]'
+          ).prop("checked", true);
+          $("#testPrediabetesModal #question-3 .next").prop("disabled", false);
+        } else if (bmi >= 25 && bmi <= 30) {
+          $(
+            '#testPrediabetesModal #question-3 input[name="bmi"][data-score="1"]'
+          ).prop("checked", true);
+          $("#testPrediabetesModal #question-3 .next").prop("disabled", false);
+        } else if (bmi > 30) {
+          $(
+            '#testPrediabetesModal #question-3 input[name="bmi"][data-score="3"]'
+          ).prop("checked", true);
+          $("#testPrediabetesModal #question-3 .next").prop("disabled", false);
+        }
+      } else {
+        bmiResult.text("");
+        $('#testPrediabetesModal #question-3 input[name="bmi"]').prop(
           "checked",
-          true
+          false
         );
-        $("#question-3 .next").prop("disabled", false);
-      } else if (bmi >= 25 && bmi <= 30) {
-        $('#question-3 input[name="bmi"][data-score="1"]').prop(
-          "checked",
-          true
-        );
-        $("#question-3 .next").prop("disabled", false);
-      } else if (bmi > 30) {
-        $('#question-3 input[name="bmi"][data-score="3"]').prop(
-          "checked",
-          true
-        );
-        $("#question-3 .next").prop("disabled", false);
+        $("#testPrediabetesModal #question-3 .next").prop("disabled", true);
       }
-    } else {
-      bmiResult.text("");
-      $('#question-3 input[name="bmi"]').prop("checked", false);
-      $("#question-3 .next").prop("disabled", true);
     }
-  });
+  );
 
-  // Manejar la lógica para los radios de cintura (hombres y mujeres)
-  $('#question-4 .option-group input[name="waist"]').change(function () {
-    $("#question-4 .next").prop("disabled", false);
-    $("#question-4 .progress-message").hide();
-  });
+  // Manejar la lógica para los radios de cintura
+  $(document).on(
+    "change",
+    '#testPrediabetesModal #question-4 .option-group input[name="waist"]',
+    function () {
+      $("#testPrediabetesModal #question-4 .next").prop("disabled", false);
+      $("#testPrediabetesModal #question-4 .progress-message").hide();
+    }
+  );
 
-  // Evento ESPECÍFICO para el botón "Finalizar Test" (pregunta 8)
-  $("#submit-button").click(function () {
+  // Evento ESPECÍFICO para el botón "Finalizar Test"
+  $(document).on("click", "#testPrediabetesModal #submit-button", function () {
     const lastQuestionPanelId = $(this).closest(".question-panel").attr("id");
     const lastSelectedOption = $(
-      "#" + lastQuestionPanelId + ' input[type="radio"]:checked'
+      "#testPrediabetesModal #" +
+        lastQuestionPanelId +
+        ' input[type="radio"]:checked'
     );
 
     if (lastSelectedOption.length > 0) {
-      let score = 0;
-      // Lógica para obtener la puntuación de la última pregunta
-      if (lastQuestionPanelId === "question-4") {
-        if (lastSelectedOption.data("score-men") !== undefined) {
-          score = parseInt(lastSelectedOption.data("score-men"));
-        } else if (lastSelectedOption.data("score-women") !== undefined) {
-          score = parseInt(lastSelectedOption.data("score-women"));
-        }
-      } else {
-        score = parseInt(lastSelectedOption.data("score"));
-      }
+      let score = parseInt(lastSelectedOption.data("score"));
       totalScore += score;
       showResults();
     } else {
@@ -191,36 +214,49 @@ $(document).ready(function () {
 
   // Función para mostrar los resultados
   function showResults() {
-    $(".question-panel").removeClass("active").hide();
-    $("#question-10").addClass("active").show();
-    $(".live-score").text(totalScore);
-    $(".results-panel .my-result").removeClass("active").hide();
+    $("#testPrediabetesModal .question-panel").removeClass("active").hide();
+    $("#testPrediabetesModal #question-10").addClass("active").show();
+    $("#testPrediabetesModal .live-score").text(totalScore);
+    $("#testPrediabetesModal .results-panel .my-result")
+      .removeClass("active")
+      .hide();
 
     if (totalScore < 7) {
-      $(".results-panel .result-low").addClass("active").show();
+      $("#testPrediabetesModal .results-panel .result-low")
+        .addClass("active")
+        .show();
     } else if (totalScore >= 7 && totalScore <= 11) {
-      $(".results-panel .result-elevated").addClass("active").show();
+      $("#testPrediabetesModal .results-panel .result-elevated")
+        .addClass("active")
+        .show();
     } else if (totalScore >= 12 && totalScore <= 14) {
-      $(".results-panel .result-moderate").addClass("active").show();
+      $("#testPrediabetesModal .results-panel .result-moderate")
+        .addClass("active")
+        .show();
     } else if (totalScore >= 15 && totalScore <= 20) {
-      $(".results-panel .result-high").addClass("active").show();
+      $("#testPrediabetesModal .results-panel .result-high")
+        .addClass("active")
+        .show();
     } else if (totalScore > 20) {
-      $(".results-panel .result-very-high").addClass("active").show();
+      $("#testPrediabetesModal .results-panel .result-very-high")
+        .addClass("active")
+        .show();
     }
   }
 
   // Evento para el botón "Comenzar de nuevo"
-  $("#restart-button").click(function () {
-    currentQuestion = 1;
+  $(document).on("click", "#testPrediabetesModal #restart-button", function () {
+    currentQuestion = 2;
     totalScore = 0;
-    $('.option-group input[type="radio"]').prop("checked", false);
-    $(".question-panel").removeClass("active").hide();
-    $(".start-panel").addClass("active").show();
-    $("#question-3 .bmi-result").text("");
-    $('#question-3 input[name="bmi"]').prop("checked", false);
-    $(".next").prop("disabled", false); // Re-habilitar botones
+    $('#testPrediabetesModal .option-group input[type="radio"]').prop(
+      "checked",
+      false
+    );
+    $("#testPrediabetesModal #question-3 .bmi-result").text("");
+    $('#testPrediabetesModal #question-3 input[name="bmi"]').prop(
+      "checked",
+      false
+    );
+    showQuestion(currentQuestion);
   });
-
-  // Inicializar mostrando la primera pregunta (panel de inicio)
-  showQuestion(currentQuestion);
 });

@@ -594,6 +594,7 @@ $(document).ready(function () {
 
     const $wrapper = $(this);
     const videoId = $wrapper.data("id");
+    const platform = ($wrapper.data("platform") || "youtube").toLowerCase();
 
     // Validar que existe el ID del video
     if (!videoId) {
@@ -609,9 +610,19 @@ $(document).ready(function () {
     // Añadir clase de carga
     $wrapper.addClass("loading");
 
-    // Crear el iframe
+    // Determina la URL del iframe según la plataforma
+    let videoSrc = "";
+    if (platform === "youtube") {
+      videoSrc = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`;
+    } else if (platform === "vimeo") {
+      videoSrc = `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0`;
+    } else {
+      console.error("Plataforma de video no soportada:", platform);
+      return;
+    }
+
     const iframe = $("<iframe>", {
-      src: `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`,
+      src: videoSrc,
       allow:
         "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
       allowfullscreen: true,

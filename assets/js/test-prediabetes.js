@@ -60,6 +60,11 @@ $(document).ready(function () {
 
   // Evento para el botón "Comenzar"
   $(".start-panel .next").click(function () {
+    // const myModal = new bootstrap.Modal(
+    //   document.getElementById("testPrediabetesModal")
+    // );
+    // myModal.show();
+
     currentQuestion++;
     showQuestion(currentQuestion);
   });
@@ -118,7 +123,7 @@ $(document).ready(function () {
 
     if (height > 0 && weight > 0) {
       const bmi = weight / (height * height);
-      bmiResult.text(bmi.toFixed(2));
+      bmiResult.text(bmi.toFixed(2) + " Kg/m2");
 
       $('#question-3 input[name="bmi"]').prop("checked", false); // Desmarcar todas las opciones de IMC
       $("#question-3 .next").prop("disabled", true);

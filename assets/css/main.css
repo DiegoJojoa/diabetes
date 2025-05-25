@@ -1820,7 +1820,7 @@ section,
   font-size: 1.1rem;
   line-height: 1.7;
   color: var(--default-color);
-  max-width: 800px;
+  max-width: 1000px;
 }
 
 .course-image-container {
@@ -1829,6 +1829,7 @@ section,
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  max-height: 380px;
 }
 
 .course-image-container:hover {
@@ -1912,6 +1913,7 @@ section,
   overflow: hidden;
   box-shadow: 0 8px 25px rgba(25, 119, 204, 0.3);
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .btn-course:hover {
@@ -2020,4 +2022,8 @@ section,
   .features-grid {
     margin-top: 2rem;
   }
+}
+
+.text-justify {
+  text-align: justify;
 }

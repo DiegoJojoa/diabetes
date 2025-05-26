@@ -2212,13 +2212,6 @@ section,
 --------------------------------------------------------------*/
 
 :root {
-  --background-color: #ffffff;
-  --default-color: #444444;
-  --heading-color: #2c4964;
-  --accent-color: #1977cc;
-  --surface-color: #ffffff;
-  --contrast-color: #ffffff;
-  --light-background-color: #f1f7fc;
   --success-color: #28a745;
   --warning-color: #ffc107;
   --shadow: 0 8px 30px rgba(44, 73, 100, 0.1);
@@ -2361,7 +2354,7 @@ section,
 
 /* Hipoglucemia specific styling */
 #hipoglucemia {
-  background: linear-gradient(135deg, #ffeaa7 0%, var(--light-background-color) 100%);
+  background: linear-gradient(135deg, #f8f9fa 0%, var(--light-background-color) 100%);
 }
 
 .hipoglucemia-content {

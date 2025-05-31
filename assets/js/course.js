@@ -38,7 +38,7 @@ $(document).ready(function () {
     q3: "c", // La capacidad del cuerpo para producir insulina
     q4: "c", // Hemoglobina glicosilada (HbA1c)
     q5: "c", // Obesidad y sedentarismo
-    q6: "b", // Cetoacidosis diabética (CAD)
+    q6: "a", // hipoglicemia
     q7: "c", // Mantener una ingesta constante de carbohidratos complejos y fibra
     q8: "c", // Una combinación de ejercicios aeróbicos y de resistencia
     q9: "c", // Neuropatía diabética

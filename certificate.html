@@ -124,12 +124,13 @@
     }
 
     #sello-container {
+      /* margin-top: 30px; */
       position: absolute;
-      width: 120px;
-      height: 120px;
+      width: 220px;
+      height: 220px;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, calc(-50% + 30px));
       z-index: 2;
       display: flex;
       justify-content: center;
@@ -205,24 +206,24 @@
       </p>
 
       <div id="firmas">
-        <div class="firma">
+        <!-- <div class="firma">
           <div class="linea"></div>
           <p>Ana Carolina M.</p>
           <small>Ana Carolina Mojica</small>
           <small>LIDER DE PROCESOS IPS BARZAL</small>
-        </div>
+        </div> -->
 
         <div id="sello-container">
           <img
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFmklEQVR4nO2dW2gdRRjHf9FWhVJbRUMVStPWh1KlF2MrRWJaqSi++JCaeOpb9UGtolVRK4hXBMELQqMtesAHESsiWlDE4oXW3iyKolhbrYr2hlVqoVpbP/nCfBpPdvfMzuzOzjkfDJwD58zs/s/u3ZlvvkBRFEVRFEVRFEVRFEVRlF5jFrAS2AGcAvqCxynghTBN6SJuAxo9/PgOWCRp7zxgPfDKkGMDmAdkIsj1/k8M1oSyCbJaELxjwCUOsozs59M8cD1wNMp7DsD7wEgjyBVCQ31LiPKrMUaB/ZK4i9EI8qPwBC0Uht0nGQk19IXAaGHYeeBr4OboKuIVsyYRYUZQ82ZhnP8WrEuUCciLCbOUKGbEDPPAtSa+WbPOkqtMfDPZl8zWnmS+JHZNNTbxzTt6fI2SaSxcMx5bI/HNNiQ+K6SRlYPEPxmJbzbp8VmpxnJJ7E/Cr5lWQSZSPjMqoYzkJMl6FHhVErflmEDyRzyfCsn9kvhm1zyf5SZGSiJsXvJ8lhKQspIIq3k+6zEPYtyY8hnSVkFKngjTEqRTBfGCMAWZlSXCKikSe0FYghySJcJ2pXxmdFWQJ4C7gCeDn78AD1m4Fkp3Kfd3zZA2G3kkPGd87vxPsVx4ofROinLrgk3JnAvdLM5JOwgXJbhZjNlzXdqZcWnhzLhB2nm1KRGWRJAZRYlQBbFcdrBdeK1YEWnniXQ7M7Y4zYyWREhHMySGRNg7aTdBL5HGZP9qSW9hRtojfKEwc80LQjNNtUiEVVCQH4QXmTUWri3E76TLjAuSODYuR4UrY8RiZkjuSPvAvlm4pzQr8+q0mDUZbN7bVNgNuUK45tQsXN8C6zpy+A+xEXhYuK26CdI+tpU4NCxcz/zPaRaulTgWWridSFiQdNnMEDNDkgpiYoQwGVZaQQ5buK4zC5eF63FHt+/C/XkHt69jJnGpJfOcZOeUBXulYN+wWNI5F24i+5KkZ9JmyZiTMDMmJcGPOAiRVdZTHUmETQr/npMVk+CYpGdSmJkRQyJsVJgIay/BF8I3DcZdBZkkC9c2QVxcjySz6zC/zAMXHAXImXAHgWssXC8LM01zznZ2mUmymyU7d78OPGrbY15g4cqT7SZ3u2zIbyfbPLvZkwMOE3V5sg2XM8JdUSV9bCe7WgriKMgpC9dpV0FKnQjzWZCOXLI8SYR5I0i3JcK8E8SXRFh7zP9TNNLC9ZClK4ogJyQDR4QFKRsujI95zMKVJXvD1dXMTm+EfW3h2pDwb7Sd7Hu18KbOYmCDMNnZwuH3r/YiEebNZF8lQTqdCLNZGG2wzeIziYYvmXlfEmGlFyRrWbiO4zfmCcNDlq4HgqUW7U2EeSlI2RNhXgnSTYkwrwTppkSYV4J0UyLMtmDPOcEG4/YiEWbbH7XxYQZeJ6zZNgX8iHjnYXsBrfLEUAmvBOmmRJgW7FmWoLYbp+fI1iQsBL4A/rZ06ZrVlEwX9FeuecA7wg28cRyuWc2TDc6+JsKcXZJ9zNPCve5yC9dPwN3CJegtYZy9FcS8IVokEea9IF1WsOddIqzSgjgXw3RhIqzSgrgWw3RpIqzygriYCW6UJcK6QxCXRJgmdtskiGs9iK6M6KAgjnWFuqbVAUHaaybLlgjLiS8+nwOvBZsYu1qQhBQleZsS6BKyemYV3zPDJ0Fci3a6NhHmkyDOiTBdj1XRNcQDQbQeRNcQnSTXfcR0sltZQSqRCPNJEJdEmCZ2OyiIUzGMFuz1gCB6Q7Q3BMlKLvqcpGCvJwSpRCLMJ0GcE2G6hvSGIFqwp2tIpUg6Q1yK+sZJfnpJaYlsHLNJtrzSbF7cRLb1Y6el5xVFURRFURRFURRFUXzgX8xLxNYxASHCAAAAAElFTkSuQmCC"
+            src="./assets/img/sello-certificado.png"
             alt="Sello de certificación">
         </div>
 
-        <div class="firma">
+        <!-- <div class="firma">
           <div class="linea"></div>
           <p>María Miriam Lema Castaño</p>
           <small>GERENTE ESE MUNICIPAL</small>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

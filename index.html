@@ -76,7 +76,6 @@
         <nav id="navmenu" class="navmenu">
           <ul>
             <li><a href="#hero" class="active">Inicio<br></a></li>
-            <!-- <li><a href="#about">Infórmate</a></li> -->
             <li class="dropdown"><a href="#"><span>Infórmate</span> <i
                   class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
@@ -91,7 +90,7 @@
                   class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="#about">Uso del glucómetro</a></li>
-                <li><a href="#">Diagnóstico</a></li>
+                <li><a href="#diagnosis">Diagnóstico</a></li>
                 <li class="dropdown"><a href="#"><span>Medicamentos</span> <i
                       class="bi bi-chevron-down toggle-dropdown"></i></a>
                   <ul>
@@ -101,10 +100,6 @@
                 </li>
               </ul>
             </li>
-            <!-- <li><a href="#services">Services</a></li> -->
-            <!-- <li><a href="#departments">Departments</a></li> -->
-            <!-- <li><a href="#doctors">Doctors</a></li> -->
-            <!-- <li><a href="#complications">Consecuencias</a></li> -->
             <li class="dropdown"><a href="#"><span>Consecuencias</span> <i
                   class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
@@ -122,26 +117,6 @@
             <li><a href="#test">Test de riesgo</a></li>
             <li><a href="#course">Curso</a></li>
             <li><a href="#contact">Contacto</a></li>
-            <!-- <li class="dropdown"><a href="#"><span>Dropdown</span> <i
-                  class="bi bi-chevron-down toggle-dropdown"></i></a>
-              <ul>
-                <li><a href="#">Dropdown 1</a></li>
-                <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i
-                      class="bi bi-chevron-down toggle-dropdown"></i></a>
-                  <ul>
-                    <li><a href="#">Deep Dropdown 1</a></li>
-                    <li><a href="#">Deep Dropdown 2</a></li>
-                    <li><a href="#">Deep Dropdown 3</a></li>
-                    <li><a href="#">Deep Dropdown 4</a></li>
-                    <li><a href="#">Deep Dropdown 5</a></li>
-                  </ul>
-                </li>
-                <li><a href="#">Dropdown 2</a></li>
-                <li><a href="#">Dropdown 3</a></li>
-                <li><a href="#">Dropdown 4</a></li>
-              </ul>
-            </li> -->
-            <!-- <li><a href="#contact">Contact</a></li> -->
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
@@ -281,7 +256,7 @@
         <!-- Título Principal -->
         <div class="row">
           <div class="col-12 text-center">
-            <h2 class="section-title">Prediabetes: Lo que Necesitas Saber</h2>
+            <h2 class="section-title">Prediabetes: Lo que necesitas saber</h2>
             <p class="lead text-muted">La prediabetes es una condición seria donde los niveles de azúcar en sangre son
               más altos de lo normal, pero no lo suficientemente altos para ser diagnosticados como diabetes tipo 2.</p>
           </div>
@@ -311,8 +286,9 @@
                 </div>
                 Prevalencia
               </h4>
-              <p>Más de 88 millones de adultos estadounidenses tienen prediabetes, y más del 84% no saben que la tienen.
-                Es una condición muy común pero frecuentemente no diagnosticada.</p>
+              <p>En Colombia, se estima que entre el 8% y el 10% de los adultos entre 20 y 79 años presentan
+                prediabetes. Esto significa que, de cada 100 colombianos de estos grupos etarios, entre 8 y 10 podrían
+                tener prediabetes.</p>
             </div>
           </div>
 
@@ -426,8 +402,29 @@
           </div><!-- End Service Item -->
 
         </div>
+      </div>
+    </section><!-- /Diabetes Section -->
+
+
+    <!-- diagnosis Section -->
+    <section id="diagnosis" class="section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Diagnóstico</h2>
+        <div>
+          <p class="mt-2 text-justify">El diagnóstico de la diabetes se basa en pruebas específicas que permiten
+            identificar niveles anormales de glucosa en la sangre. A continuación, se presentan los rangos establecidos
+            para cada una de estas pruebas, que ayudan a determinar si una persona tiene un nivel normal de glucosa, se
+            encuentra en un estado de prediabetes o ha desarrollado diabetes.</p>
+        </div>
+
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
         <!-- Tabla de Valores de Diagnóstico -->
-        <div class="row mt-5">
+        <div class="row">
           <div class="col-12">
             <h5 class="text-center  mb-4" style="color: var(--heading-color);">Valores de Diagnóstico</h5>
             <div class="values-table">
@@ -442,7 +439,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>A1C</strong></td>
+                    <td><strong>Hemoglobina glicosilada</strong></td>
                     <td>Menos de 5.7%</td>
                     <td>5.7% a 6.4%</td>
                     <td>6.5% o más</td>
@@ -465,13 +462,14 @@
           </div>
         </div>
       </div>
-    </section><!-- /Diabetes Section -->
+    </section>
+    <!-- /diagnosis Section -->
 
 
-    <!-- Hipoglucemia Section -->
+    <!-- Hipoglicemia Section -->
     <section id="hipoglucemia" class="section">
       <div class="container section-title" data-aos="fade-up">
-        <h2>Hipoglucemia</h2>
+        <h2>Hipoglicemia</h2>
         <div class="intro-content">
           <p class="lead">
             <i class="fas fa-exclamation-triangle" style="color: #dc3545; margin-right: 10px;"></i>
@@ -557,7 +555,9 @@
               organismo no puede utilizarla eficazmente.</strong>
           </p> -->
           <p>
-            Mantener un estilo de vida saludable es clave para el control y la prevención de complicaciones de la diabetes. En esta sección encontrarás recomendaciones prácticas sobre alimentación equilibrada y actividad física regular, adaptadas a las necesidades de personas con diabetes.
+            Mantener un estilo de vida saludable es clave para el control y la prevención de complicaciones de la
+            diabetes. En esta sección encontrarás recomendaciones prácticas sobre alimentación equilibrada y actividad
+            física regular, adaptadas a las necesidades de personas con diabetes.
           </p>
         </div>
       </div>
@@ -748,7 +748,7 @@
                 <div class="row">
                   <div class="col-lg-8 details order-2 order-lg-1">
                     <h3>Complicaciones de los ojos</h3>
-                    <p class="fst-italic">Altos niveles de glucosa pueden dañar los vasos sanguíneos de la retina,
+                    <p>Altos niveles de glucosa pueden dañar los vasos sanguíneos de la retina,
                       causando retinopatía diabética. Esta afección puede provocar visión borrosa, pérdida parcial o
                       incluso ceguera. Un seguimiento oftalmológico regular ayuda a detectar y tratar a tiempo cualquier
                       alteración visual asociada a la diabetes.</p>
@@ -778,7 +778,7 @@
                 <div class="row">
                   <div class="col-lg-8 details order-2 order-lg-1">
                     <h3>Enfermedad nerviosa</h3>
-                    <p class="fst-italic">La neuropatía diabética es una afección que surge cuando la hiperglucemia daña
+                    <p>La neuropatía diabética es una afección que surge cuando la hiperglucemia daña
                       los nervios, especialmente en las piernas y pies. Puede causar hormigueo, entumecimiento,
                       debilidad o dolor. El buen control de la diabetes es clave para prevenir y aliviar los síntomas de
                       esta complicación silenciosa pero seria.</p>
@@ -2669,8 +2669,8 @@
                   <p>El pie diabético es una complicación grave que puede afectar la movilidad y calidad de vida.
                     Aprende a prevenirlo y a cuidarte correctamente.</p>
 
-                  <div class="video-wrapper" data-id="XR3zVxh4SZs">
-                    <img src="https://img.youtube.com/vi/XR3zVxh4SZs/hqdefault.jpg" alt="Hipoglicemia - azúcar baja">
+                  <div class="video-wrapper" data-id="RhatT4Gid_M">
+                    <img src="https://img.youtube.com/vi/RhatT4Gid_M/hqdefault.jpg" alt="Pie diabético">
                     <div class="play-button">
                       <i class="bi bi-play-fill"></i>
                     </div>
